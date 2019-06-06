@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="PKItem2Skin" width="630" height="120" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="white_bg_png" left="0" right="0" top="0" bottom="0"/>
+	<e:Image id="mc" width="90" height="90" x="20" verticalCenter="0"/>
+	<e:Label id="nameText" text="Label" x="130" y="20" textColor="0x000000" size="28" bold="true"/>
+	<e:Label id="desText" text="Labe" x="130" y="55" textColor="0x000000" size="20" anchorOffsetX="0" width="350" anchorOffsetY="0" lineSpacing="10"/>
+	<e:Image source="open_btn_png" verticalCenter="0" right="20"/>
+</e:Skin>

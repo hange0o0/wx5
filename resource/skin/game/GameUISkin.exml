@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="GameUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="bg" left="0" fillMode="repeat" right="0" top="0" bottom="0"/>
+	<e:Button id="startBtn" label="点击开始游戏" skinName="Btn2Skin" width="250" height="80" horizontalCenter="0" bottom="250"/>
+	<e:Image id="soundBtn" source="sound_btn1_png" x="99" y="30"/>
+	<e:Group y="145.45" width="540" height="18" horizontalCenter="0">
+		<e:Image source="black_bg_png" left="0" right="0" top="0" bottom="0"/>
+		<e:Image id="barMC" source="yellor_bg_png" y="4" width="300" x="4" height="10"/>
+	</e:Group>
+	<e:Label text="游戏说明" y="82" size="40" bold="true" horizontalCenter="0"/>
+	<e:Label text="↑↑↑  必须在游戏倒计时结束前进行点击  ↑↑↑" y="187.94" size="24" horizontalCenter="0"/>
+	<e:Label text="↑↑↑  只能点击以上目前标，点到广告游戏失败  ↑↑↑" horizontalCenter="0.5" size="24" bottom="377"/>
+	<e:Group id="con" width="560" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" top="240" bottom="420" touchChildren="false" touchEnabled="false">
+		<e:Image source="black_bg_alpha_png" scaleX="1" scaleY="1" left="0" right="0" top="0" bottom="0"/>
+	</e:Group>
+	<e:Label text="《健康游戏忠告》" size="24" bottom="80" horizontalCenter="0" textColor="0xd8d8d8"/>
+		<e:Label text="抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。\n适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。" size="20" lineSpacing="6" textAlign="center" horizontalCenter="0" bottom="20" textColor="0xd8d8d8"/>
+	<e:Image id="rankBtn" source="rank_btn_png" x="20" y="20"/>
+
+			</e:Skin>

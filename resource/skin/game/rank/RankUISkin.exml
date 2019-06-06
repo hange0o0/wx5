@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="RankUISkin" width="600" height="860" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*" xmlns:w="http://ns.egret.com/wing">
+	<ns1:BasePanel skinName="BasePanelSkin" left="0" right="0" top="0" bottom="0"/>
+	<e:TabBar id="tab" y="70" itemRendererSkinName="MyTabItemSkin" left="30" right="30" height="50">
+		<e:ArrayCollection>
+			<e:Array>
+				<e:Object label="时间榜"/>
+				<e:Object label="积分榜"/>
+			</e:Array>
+		</e:ArrayCollection>
+		<e:layout>
+			<e:HorizontalLayout horizontalAlign="justify"/>
+		</e:layout>
+	</e:TabBar>
+</e:Skin>
