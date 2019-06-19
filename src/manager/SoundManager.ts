@@ -176,14 +176,13 @@ class SoundManager {
         if(!this.bgPlaying) return;
         if(this.bgKey == key) return;
 
-        this.bgKey = key;
+
 
         var url = "resource/sound/" + key +".mp3"
         if(this.currentKey == url) return;
-        this.currentKey=url;
         this.stopBgSound()
-
-
+        this.bgKey = key;
+        this.currentKey=url;
         if(window['wx'])
         {
             const innerAudioContext = this.wxChannel = window['wx'].createInnerAudioContext()

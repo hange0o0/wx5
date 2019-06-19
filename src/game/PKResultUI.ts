@@ -62,6 +62,33 @@ class PKResultUI extends game.BaseUI_wx5{
 
     public onShow(){
         this.renew();
+        var PM = PlayManager.getInstance();
+        var extraData = PM.extraData;
+        if(extraData)
+        {
+            var b = false;
+            var cd = Math.floor(PM.startTime/1000);
+            if(extraData.key == 'cd' && cd >= extraData.value)
+                b = true;
+            else if(extraData.key == 'score' && PM.score >= extraData.value)
+                b = true;
+            if(b)
+            {
+                MyWindow.Confirm('你已达成任务要求，是否返回原小游戏领取奖励？',(b)=>{
+                    if(b==1)
+                    {
+                        PlayManager.getInstance().onExtraSuccess();
+                    }
+                },['放弃', '前往']);
+            }
+            else
+            {
+                if(extraData.key == 'cd')
+                    MyWindow.Alert('离目标还差'+(extraData.value - cd)+'秒，请继续加油').showCenter()
+                else
+                    MyWindow.Alert('离目标还差'+(extraData.value - PM.score)+'分，请继续加油').showCenter()
+            }
+        }
     }
 
     private getHonor(cd){

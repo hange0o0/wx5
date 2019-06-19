@@ -101,7 +101,7 @@ class GameUI extends game.BaseUI_wx5 {
             }
         }
 
-
+       PlayManager.getInstance().testShowExtra();
         this.addPanelOpenEvent(GameEvent.client.timerE,this.onE)
     }
 

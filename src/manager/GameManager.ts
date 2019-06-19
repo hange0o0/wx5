@@ -355,6 +355,8 @@ if(window["wx"])
 
         //GameUI.getInstance().cleanTouch();
         console.log('show')
+        PlayManager.getInstance().initExtra(res)
+        PlayManager.getInstance().testShowExtra();
     });
     //wx.exitMiniProgram(function(res){
     //    if(!GameManager.stage)

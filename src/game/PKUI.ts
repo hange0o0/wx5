@@ -45,15 +45,22 @@ class PKUI extends game.BaseUI_wx5 {
         super.childrenCreated();
         this.con.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onClick, this);
         this.item1.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onClick2, this);
-        this.item2.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onClick2, this);
+        this.item2.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onClick3, this);
         this.item1.startStep = 1;
         this.item2.startStep = 2;
     }
 
-    private onClick2(e){
+    private onClick2(){
         SoundManager.getInstance().playEffect('error');
         setTimeout(()=>{
-            PlayManager.getInstance().showAD(e.target.adObj)
+            PlayManager.getInstance().showAD(this.item1.adObj)
+        },300)
+
+    }
+    private onClick3(){
+        SoundManager.getInstance().playEffect('error');
+        setTimeout(()=>{
+            PlayManager.getInstance().showAD(this.item2.adObj)
         },300)
 
     }

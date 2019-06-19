@@ -14,6 +14,10 @@ class PlayManager extends egret.EventDispatcher {
         super();
     }
 
+    public extraData;//外部带入的数据
+    public finishExtraUin = -1//已完成的Uin
+    public alertUin = -1//已完成的Uin
+
     public index = 1;
     public adList;
     public gameADList;
@@ -29,6 +33,8 @@ class PlayManager extends egret.EventDispatcher {
 
     public cloudPath = 'cloud://server1-8635ef.7365-server1-8635ef/'
     public myAppID = 'wxe2875716299fa092'
+
+
 
     public getAD(fun?){
         if(this.adList)
@@ -286,4 +292,60 @@ class PlayManager extends egret.EventDispatcher {
         }
 
     }
+
+    public initExtra(data){
+        this.extraData = null;
+        if(!data || !data.referrerInfo || !data.referrerInfo.extraData || !data.referrerInfo.extraData.appid)
+        {
+            return;
+        }
+        if(this.finishExtraUin != data.referrerInfo.extraData.uin)
+        {
+            this.extraData = data.referrerInfo.extraData
+        }
+    }
+
+    //前往WX5
+    public onExtraSuccess(){
+        var wx = window['wx'];
+        if(!wx)
+        {
+            return;
+        }
+
+        var self = this;
+        var oo = ObjectUtil_wx5.clone(this.extraData)
+        oo.appid = 'wxe2875716299fa092'//我的APPID
+        oo.uin = Math.floor(Math.random()*1000000000000000);//唯一Key
+        wx.navigateToMiniProgram({
+            appId: this.extraData.appid,//进入的APPID
+            envVersion:'trial',
+            extraData:oo,
+            success(res) {
+                self.finishExtraUin = self.extraData.uin
+                self.extraData = null;
+                // 打开成功
+            }
+        })
+    }
+
+    public testShowExtra(){
+        var extraData = PlayManager.getInstance().extraData
+        if(extraData && extraData.uin != PlayManager.getInstance().alertUin)
+        {
+            var str = '接收到其它小游戏的任务：\n'
+            if(extraData.key == 'cd')
+                str += '坚持 ' + extraData.value + ' 秒';
+            else
+                str += '获得 ' + extraData.value + ' 分';
+            MyWindow.Alert(str,()=>{
+                PKResultUI.getInstance().hide();
+                PKUI.getInstance().hide();
+            },'开始游戏')
+            PlayManager.getInstance().alertUin = extraData.uin;
+        }
+
+    }
+
+
 }

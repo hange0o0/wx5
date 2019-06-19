@@ -43,11 +43,10 @@ class PKItem2 extends game.BaseItem{
         else if(this.addY < 0 && this.y < -120)
         {
             this.addY = -this.addY
-            if(this.startStep == 1 && !PlayManager.getInstance().isGameOver)
+            if(this.startStep == 1 && !PlayManager.getInstance().isGameOver && PlayManager.getInstance().gameStep == 1)
             {
                 PlayManager.getInstance().gameStep ++;
-                if(PlayManager.getInstance().gameStep == 2)
-                    SoundManager.getInstance().playEffect('laugh1')
+                SoundManager.getInstance().playEffect('laugh1')
             }
         }
     }

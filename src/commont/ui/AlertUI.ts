@@ -46,6 +46,11 @@ class AlertUI extends game.BaseWindow_wx5 {
         this.x = (ww - this.width) / 2;
         this.y = (hh - this.height) / 2;
     }
+
+    public showCenter(){
+        this.text.textAlign = 'center'
+        return this;
+    }
 	private wx5_functionX_28236(){console.log(378)}
 
     private onClick_456(){

@@ -207,9 +207,11 @@ class Main extends eui.UILayer {
         //}
         //console.log('_12')
 	wx5_function(6821);
-        GameUI.getInstance().show();
+
         PlayManager.getInstance().getAD()
+        window['wx'] && PlayManager.getInstance().initExtra(window['wx'].getLaunchOptionsSync())
         UM_wx5.getUserInfo()
+        GameUI.getInstance().show();
 
     }
 }

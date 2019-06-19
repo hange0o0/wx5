@@ -38,7 +38,7 @@
 		<e:Group id="closeBtn2" y="877" width="240" height="60" horizontalCenter="0">
 			<e:Group horizontalCenter="0" verticalCenter="0">
 			<e:Group x="0" y="0">
-				<e:Label text="关 闭" x="10" y="10" size="24"/>
+				<e:Label text="重新挑战" x="10" y="10" size="24"/>
 				<e:layout>
 				<e:HorizontalLayout/>
 				</e:layout>
