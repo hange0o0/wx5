@@ -341,7 +341,7 @@ class PlayManager extends egret.EventDispatcher {
             MyWindow.Alert(str,()=>{
                 PKResultUI.getInstance().hide();
                 PKUI.getInstance().hide();
-            },'开始游戏')
+            },'开始游戏').showCenter()
             PlayManager.getInstance().alertUin = extraData.uin;
         }
 
