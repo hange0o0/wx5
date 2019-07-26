@@ -26,6 +26,8 @@ class PlayManager extends egret.EventDispatcher {
     public lastClick = 0
     public maxCD = 0
     public startTime = 0
+    public dieTime = 0
+    public dieTimes = 0
     public countDown = 0
     public gameStep = 0
     public isGameOver = true
@@ -34,6 +36,11 @@ class PlayManager extends egret.EventDispatcher {
     public cloudPath = 'cloud://server1-8635ef.7365-server1-8635ef/'
     public myAppID = 'wxe2875716299fa092'
 
+
+    private nameArr = '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮卞齐康伍余元卜顾孟平黄和穆萧尹姚邵舒汪祁'.split('')
+    private jobArr = '时装设计,健身教练,教师,记者,演员,厨师,医生,护士,司机,军人,律师,商人,会计,出纳,作家,导游,模特,警察,歌手,画家,裁缝,翻译,法官,消防员,魔术师,救生员,运动员,工程师,飞行员,经纪人,审计员,漫画家,主持人,调酒师,化妆师,艺术家,甜品师,赛车手,律师,兽医,程序员,诗人,学生,幼教'.split(',')
+    private likeArr = '唱歌,跳舞,篮球,足球,保龄球,高尔夫球,瑜伽,武术,演讲,手工,画画,写歌,作曲,表演,乒乓球,台球,羽毛球,排球,书法,阅读,写作,摄影,旅游,购物,志愿者,讲笑话,cosplay,电影,玩游戏,剪纸,收藏,购物,逛街,跑步,健身,围棋,象棋,飞行棋,斗兽棋,五子棋,斗地主,赛车,网球,设计,拼图,京剧,遛狗,攀岩,跑酷,潜水,轮滑,滑板,街舞,滑雪,登山,单车攀爬,美术,朗诵,英语,游泳,听音乐,钢琴,魔术,魔方,射击,桌球,桌游,跆拳道,美食,编程,骑马,弹琴,插花,乐高,雕刻,集邮,烘焙,架子鼓,吉他'.split(',')
+    public heroList = [];
 
 
     public getAD(fun?){
@@ -203,13 +210,14 @@ class PlayManager extends egret.EventDispatcher {
         }
     }
 
-    public showAD(data){
+    public showAD(data,finishFun?){
         var wx = window['wx'];
 
         if(!wx)
         {
             console.log('click AD')
-            PlayManager.getInstance().onGameFinish()
+            finishFun && finishFun();
+            //PlayManager.getInstance().onGameFinish()
             return;
         }
 
@@ -224,6 +232,7 @@ class PlayManager extends egret.EventDispatcher {
             success: function () {
                 GameManager_wx5.getInstance().changeUserTime = TM_wx5.now();
                 GameManager_wx5.getInstance().changeUserID = data.appid;
+                GameManager_wx5.getInstance().changeUserFun = finishFun;
             }
         })
     }
@@ -257,10 +266,18 @@ class PlayManager extends egret.EventDispatcher {
     }
 
     private resetADList(){
-        this.gameADList = this.getListByNum(12);
-        ArrayUtil_wx5.random(this.gameADList);
-        if(this.gameADList.length > 10)
-            this.gameADList.length = 10;
+        if(UM_wx5.isTest)
+        {
+            this.gameADList = this.getListByNum(12);
+            ArrayUtil_wx5.random(this.gameADList);
+            if(this.gameADList.length > 10)
+                this.gameADList.length = 10;
+        }
+        else
+        {
+            ArrayUtil_wx5.random(this.heroList)
+            this.gameADList = this.heroList.slice(0,10)
+        }
     }
 
     public initGame(){
@@ -271,6 +288,8 @@ class PlayManager extends egret.EventDispatcher {
         this.startTime = 0
         this.countDown = 10
         this.gameStep = 0
+        this.dieTime = 0
+        this.dieTimes = 0
         this.startTime = egret.getTimer();
         this.isGameOver = true
     }
@@ -282,6 +301,8 @@ class PlayManager extends egret.EventDispatcher {
         this.countDown = 0
         this.gameStep = 0
         this.isGameOver = false
+        UM_wx5.playTimes ++;
+        this.sendGameStart(UM_wx5.playTimes)
     }
     public onGameFinish(){
         if(!this.isGameOver)
@@ -290,7 +311,29 @@ class PlayManager extends egret.EventDispatcher {
             this.startTime = egret.getTimer() - this.startTime;
             PKResultUI.getInstance().show();
         }
+    }
 
+    public onDie(data){
+        this.dieTime = egret.getTimer();
+
+        if(this.dieTimes < Math.ceil((egret.getTimer() - this.startTime)/30000))
+        {
+            this.dieTimes ++
+            RebornUI.getInstance().show()
+        }
+        else
+        {
+            this.onGameFinish();
+        }
+        //ADShowUI.getInstance().show(data)
+    }
+
+    public onReborn(){
+        this.startTime += egret.getTimer() - this.dieTime;
+        this.maxCD = 10000
+        this.lastClick = egret.getTimer();
+        this.dieTime = 0
+        this.sendGameReborn(Math.floor((egret.getTimer() - this.startTime)/1000));
     }
 
     public initExtra(data){
@@ -345,6 +388,76 @@ class PlayManager extends egret.EventDispatcher {
             PlayManager.getInstance().alertUin = extraData.uin;
         }
 
+    }
+
+    public sendKey
+    public sendKeyName
+    public sendGameStart(key){
+        var wx = window['wx']
+        if(!wx)
+            return;
+        this.sendKey = key
+        this.sendKeyName = '第'+key+'次玩'
+        wx.aldStage.onStart({
+            stageId : this.sendKey, //关卡ID， 必须是1 || 2 || 1.1 || 12.2 格式  该字段必传
+            stageName : this.sendKeyName,//关卡名称，该字段必传
+            userId  : UM_wx5.gameid//用户ID
+        })
+    }
+
+    public sendGameReborn(time){
+        var wx = window['wx']
+        if(!wx)
+            return;
+        wx.aldStage.onRunning({
+            stageId : this.sendKey,    //关卡ID 该字段必传
+            stageName : this.sendKeyName, //关卡名称  该字段必传
+            userId : UM_wx5.gameid,//用户ID
+            event : "revive",  //支付成功 关卡进行中，用户触发的操作    该字段必传
+            params : {    //参数
+                itemName : time,  //购买商品名称  该字段必传
+            }
+        })
+    }
+
+
+    public sendGameEnd(success?,info?){
+        var wx = window['wx']
+        if(!wx)
+            return;
+        wx.aldStage.onEnd({
+            stageId : this.sendKey,    //关卡ID 该字段必传
+            stageName : this.sendKeyName, //关卡名称  该字段必传
+            userId : UM_wx5.gameid,  //用户ID 可选
+            event :success?"complete":"fail",   //关卡完成  关卡进行中，用户触发的操作    该字段必传
+            params : {
+                desc :info   //描述
+            }
+        })
+    }
+
+
+
+
+    public initADObj(){
+        for(var i=1;i<=15;i++)
+        {
+            var name = ArrayUtil_wx5.randomOne(this.nameArr)  + 'X' + (Math.random()>0.5?'':'X')
+            if(i<=15)
+                var age = Math.floor(Math.random()*8) + 20;
+            else
+                var age = Math.floor(Math.random()*8) + 18;
+            var job = ArrayUtil_wx5.randomOne(this.jobArr)
+            var like = this.likeArr.concat();
+            ArrayUtil_wx5.random(like,5);
+            like.length = Math.floor(Math.random()*3) + 1
+            this.heroList.push( {
+                isHero:true,
+                logo:'head_'+i+'_png',//i + '',
+                name:name,
+                desc: age + '岁， 职业：' + job + '， 兴趣：' +  like.join('、')
+            })
+        }
     }
 
 

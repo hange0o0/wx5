@@ -82,6 +82,7 @@ class GameUI extends game.BaseUI_wx5 {
 
     public onShow(){
         PlayManager.getInstance().randomBG();
+        PlayManager.getInstance().initADObj();
         SoundManager.getInstance().playSound('bg')
 
         this.renewSound();

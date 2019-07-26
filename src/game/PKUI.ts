@@ -17,6 +17,8 @@ class PKUI extends game.BaseUI_wx5 {
     private scoreText: eui.Label;
     private readyBG: eui.Image;
     private numText: eui.Label;
+    private timeOverMC: eui.Image;
+
 
 
 
@@ -51,23 +53,29 @@ class PKUI extends game.BaseUI_wx5 {
     }
 
     private onClick2(){
+        if(this.timeOverMC.visible)
+            return;
         SoundManager.getInstance().playEffect('error');
-        setTimeout(()=>{
-            PlayManager.getInstance().showAD(this.item1.adObj)
-        },300)
+        //setTimeout(()=>{
+            PlayManager.getInstance().onDie(this.item1.adObj)
+        //},300)
 
     }
     private onClick3(){
+        if(this.timeOverMC.visible)
+            return;
         SoundManager.getInstance().playEffect('error');
-        setTimeout(()=>{
-            PlayManager.getInstance().showAD(this.item2.adObj)
-        },300)
+        //setTimeout(()=>{
+            PlayManager.getInstance().onDie(this.item2.adObj)
+        //},300)
 
     }
 
     private onClick(e){
         var PM = PlayManager.getInstance();
         if(PM.countDown)
+            return;
+        if(this.timeOverMC.visible)
             return;
         var target:any = null;
         var pp = this.con.globalToLocal(e.stageX,e.stageY)
@@ -110,9 +118,10 @@ class PKUI extends game.BaseUI_wx5 {
         else
         {
             SoundManager.getInstance().playEffect('error');
-            setTimeout(()=>{
-                PM.showAD(target.adObj)
-            },300)
+            PM.onDie(target.adObj)
+            //setTimeout(()=>{
+            //    PM.showAD(target.adObj)
+            //},300)
         }
     }
 
@@ -134,7 +143,16 @@ class PKUI extends game.BaseUI_wx5 {
         super.hide();
     }
 
+    public showTimeOver(){
+        this.timeOverMC.visible = true;
+        this.timeOverMC.scaleX = this.timeOverMC.scaleY = 0
+        egret.Tween.get(this.timeOverMC).to({scaleX:1.2,scaleY:1.2},200).to({scaleX:1,scaleY:1},200).wait(1200).call(()=>{
+            PlayManager.getInstance().onGameFinish()
+        })
+    }
+
     public onShow(){
+        this.timeOverMC.visible = false;
         this.renew();
         this.addPanelOpenEvent(GameEvent.client.timerE,this.onE)
     }
@@ -152,6 +170,7 @@ class PKUI extends game.BaseUI_wx5 {
                 PKItem.freeItem(item)
                 i--;
 
+                //加回去1个
                 var item2 = PKItem.createItem();
                 this.itemArr.unshift(item2)
                 this.con.addChildAt(item2,0)
@@ -182,7 +201,7 @@ class PKUI extends game.BaseUI_wx5 {
                 egret.Tween.get(this.numText).to({scaleX:1.2,scaleY:1.2},250).to({scaleX:1,scaleY:1},250)
             }
         }
-        else if(!PM.isGameOver)
+        else if(!PM.isGameOver && !PM.dieTime && !this.timeOverMC.visible)
         {
             var cd = egret.getTimer() - PM.startTime
             var cd1 = Math.floor(cd/1000)
@@ -202,7 +221,8 @@ class PKUI extends game.BaseUI_wx5 {
             if(cd <= 0)
             {
                 SoundManager.getInstance().playEffect('time_over')
-                PM.onGameFinish()
+                this.showTimeOver();
+
             }
             else
             {
@@ -302,12 +322,14 @@ class PKUI extends game.BaseUI_wx5 {
         {
             item = new eui.Label();
             item.size = 24;
-            item.stroke = 2;
+            //item.bold = true;
+            if(egret.Capabilities.renderMode == 'webgl')
+                item.stroke = 2;
             item.width = 160;
             item.textAlign="center"
             item.anchorOffsetX = 80;
-            item.strokeColor = 0x000000
-            item.cacheAsBitmap = true;
+            //item.strokeColor = 0x000000
+            //item.cacheAsBitmap = true;
         }
 
         item.alpha = 1;

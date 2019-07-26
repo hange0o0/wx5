@@ -34,7 +34,8 @@ class PKItem2 extends game.BaseItem{
     }
 
     public move(){
-        if(PlayManager.getInstance().gameStep < this.startStep)
+        var PM = PlayManager.getInstance()
+        if(PM.gameStep < this.startStep)
             return;
         this.y += this.addY*this.speed
 
@@ -43,9 +44,9 @@ class PKItem2 extends game.BaseItem{
         else if(this.addY < 0 && this.y < -120)
         {
             this.addY = -this.addY
-            if(this.startStep == 1 && !PlayManager.getInstance().isGameOver && PlayManager.getInstance().gameStep == 1)
+            if(this.startStep == 1 && !PM.isGameOver && PM.gameStep == 1 && !PM.dieTime)
             {
-                PlayManager.getInstance().gameStep ++;
+                PM.gameStep ++;
                 SoundManager.getInstance().playEffect('laugh1')
             }
         }

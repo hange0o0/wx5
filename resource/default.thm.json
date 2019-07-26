@@ -21,13 +21,16 @@
 		"resource/skin/commont/ui/TouchTipsSkin.exml",
 		"resource/skin/commont/ui/UpListSkin.exml",
 		"resource/skin/debug/DebugUISkin.exml",
+		"resource/skin/game/ADShowUISkin.exml",
+		"resource/skin/game/ChangeJumpUISkin.exml",
 		"resource/skin/game/ChangeUserItemSkin.exml",
 		"resource/skin/game/GameUISkin.exml",
 		"resource/skin/game/PKItem2Skin.exml",
 		"resource/skin/game/PKItemSkin.exml",
 		"resource/skin/game/PKResultUISkin.exml",
 		"resource/skin/game/PKUISkin.exml",
-		"resource/skin/game/rank/RankUISkin.exml"
+		"resource/skin/game/rank/RankUISkin.exml",
+		"resource/skin/game/RebornUISkin.exml"
 	],
 	"path": "resource/default.thm.json"
 }

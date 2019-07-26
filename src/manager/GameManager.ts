@@ -15,7 +15,7 @@ class GameManager_wx5 {
 	private wx5_functionX_28090(){console.log(1949)}
     public changeUserTime = 0
     public changeUserID = 0
-    //public changeUserFun;
+    public changeUserFun;
 
     public isActive = true;
     public onShowFun
@@ -328,7 +328,11 @@ if(window["wx"])
         //GameManager.stage.dispatchEventWith(egret.Event.DEACTIVATE);
         EM_wx5.dispatch(egret.Event.DEACTIVATE)
         console.log('hide')
-        PlayManager.getInstance().onGameFinish()
+        if(!PlayManager.getInstance().dieTime)
+        {
+            PlayManager.getInstance().onGameFinish()
+        }
+
         //GameUI.getInstance().cleanTouch();
     });
 
@@ -348,8 +352,11 @@ if(window["wx"])
                 arr.unshift(GameManager_wx5.getInstance().changeUserID)
                 if(arr.length > 20)
                     arr.length = 20;
+                if(GameManager_wx5.getInstance().changeUserFun)
+                    GameManager_wx5.getInstance().changeUserFun();
             }
             GameManager_wx5.getInstance().changeUserTime = 0;
+            GameManager_wx5.getInstance().changeUserFun = null;
         }
 
 

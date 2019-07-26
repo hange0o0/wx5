@@ -23,7 +23,7 @@ class UserManager_wx5 {
     //public gender
     //
     //
-    public isTest;
+    public isTest = false;
     public testVersion = 1//与服务器相同则为测试版本
     public shareFail;
     //
@@ -31,6 +31,7 @@ class UserManager_wx5 {
     public time = 0;
     public score = 0;
     public dbid: string;
+    public playTimes
     //
     //public coin: number = 999;
     //public level: number = 1;
@@ -75,6 +76,7 @@ class UserManager_wx5 {
         this.dbid = data._id;
         this.time = data.time;
         this.score = data.score;
+        this.playTimes = data.playTimes || 0;
         this.localSave();
     }
     //
@@ -253,6 +255,7 @@ class UserManager_wx5 {
         return {
             time:UM_wx5.time,
             score:UM_wx5.score,
+            playTimes:UM_wx5.playTimes,
             saveTime:TM_wx5.now(),
         };
     }

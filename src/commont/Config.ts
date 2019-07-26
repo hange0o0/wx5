@@ -34,6 +34,10 @@ class Config {
 
     public static openRate = 10;
 
+    public static wx_ad = 'adunit-f4c22b43615cdc5f';
+    public static wx_video = 'adunit-7ee182f90e3b372e';
+    public static myAppID = 'wxe2875716299fa092';
+
 
 
 

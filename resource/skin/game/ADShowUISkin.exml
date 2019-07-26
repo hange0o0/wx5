@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ADShowUISkin" width="520" height="770" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="window_bg_png" scale9Grid="35,26,44,50" left="0" right="0" top="0" bottom="0"/>
+	<e:Label y="30" text="你点中了小广告了！" stroke="2" bold="true" size="24" horizontalCenter="0" textColor="0xFFFFFF"/>
+	<e:Image id="img" width="480" height="540" y="75" horizontalCenter="0"/>
+	<e:Label id="desText" text="体验该小程序30秒可以复活并继续游戏" size="22" horizontalCenter="0.5" y="635"/>
+	<e:Group horizontalCenter="0" bottom="30">
+		<e:Button id="cancelBtn" label="放弃体验" x="0" y="0" skinName="Btn1Skin" width="180"/>
+		<e:Button id="okBtn" label="体验小程序" x="185.76" y="0" skinName="Btn2Skin" width="180"/>
+		<e:layout>
+			<e:HorizontalLayout gap="40"/>
+		</e:layout>
+	</e:Group>
+</e:Skin>

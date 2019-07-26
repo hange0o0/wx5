@@ -17,7 +17,9 @@ class ChangeUserItem extends game.BaseItem{
 
 
     private onClick(){
-        PlayManager.getInstance().showAD(this.data)
+        if(this.data.isHero)
+            return;
+        PlayManager.getInstance().showAD(this.data,this.data.fun)
     }
 
     public dataChanged():void {

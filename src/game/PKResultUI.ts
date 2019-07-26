@@ -126,28 +126,27 @@ class PKResultUI extends game.BaseUI_wx5{
         this.scoreText.text = PM.score + ''
 
 
+
         this.record1.visible = cd > UM_wx5.time
         if(this.record1.visible)
         {
             UM_wx5.time = cd;
-            UM_wx5.needUpUser = true;
             UM_wx5.upWXTime()
-
         }
 
         this.record2.visible = PM.score > UM_wx5.score
         if(this.record2.visible)
         {
             UM_wx5.score = PM.score;
-            UM_wx5.needUpUser = true;
             UM_wx5.upWXScore()
         }
-
+        PM.sendGameEnd(this.record1.visible|| this.record2.visible,PM.score)
 
         this.setHtml(this.honorText,'获得了【'+this.createHtml(this.getHonor(cd1),0xFF0000)+'】称号')
         this.shareText = '我在广告包围中坚持了'+cd1+'秒，获得了【'+this.getHonor(cd1)+'】称号'
 
         this.list.dataProvider = new eui.ArrayCollection(PlayManager.getInstance().gameADList)
+        UM_wx5.needUpUser = true;
     }
 
     public hide(){
