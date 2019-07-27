@@ -17,6 +17,7 @@ class PKResultUI extends game.BaseUI_wx5{
     private adGroup: eui.Group;
     private viedoBtn: eui.Image;
     private closeBtn: eui.Image;
+    private bg: eui.Image;
     private closeBtn2: eui.Group;
     private list: eui.List;
 
@@ -89,6 +90,8 @@ class PKResultUI extends game.BaseUI_wx5{
                     MyWindow.Alert('离目标还差'+(extraData.value - PM.score)+'分，请继续加油').showCenter()
             }
         }
+
+        //this.bg.source = PM.getBG();
     }
 
     private getHonor(cd){

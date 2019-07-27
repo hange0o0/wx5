@@ -15,6 +15,8 @@
 	</e:Group>
 	<e:Label text="《健康游戏忠告》" size="24" bottom="80" horizontalCenter="0" textColor="0xd8d8d8"/>
 		<e:Label text="抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。\n适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。" size="20" lineSpacing="6" textAlign="center" horizontalCenter="0" bottom="20" textColor="0xd8d8d8"/>
-	<e:Image id="rankBtn" source="rank_btn_png" x="20" y="20"/>
-
+	<e:Image id="rankBtn" source="rank_btn_png" x="20" y="19.67"/>
+	<e:Image id="feedBackBtn" source="feed_back_btn_png" x="171.45" y="18.67" scaleX="0.5" scaleY="0.5"/>
+	<e:Image id="ad1" width="90" height="90" x="25" bottom="245"/>
+	<e:Image id="ad2" width="90" height="90" bottom="245" right="25"/>
 			</e:Skin>

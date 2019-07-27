@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="PKResultUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image source="black_bg_alpha_png" left="0" right="0" top="0" bottom="0" fillMode="repeat"/>
-	<e:Image source="black_bg_alpha_png" left="0" right="0" bottom="0" fillMode="repeat" height="340"/>
-	<e:Group top="50" bottom="700" horizontalCenter="0">
+	<e:Image id="bg" source="black_bg_alpha_png" left="0" right="0" top="0" bottom="0" fillMode="repeat"/>
+	<e:Image source="black_bg_alpha_png" left="0" right="0" top="0" bottom="0" fillMode="repeat" alpha="0.5"/>
+	<e:Group top="50" bottom="600" horizontalCenter="0">
 		<e:Group x="0" verticalCenter="0">
 			<e:Label text="你在广告包周围中坚持了" y="0" size="24" horizontalCenter="0"/>
 			<e:Group y="45.46" horizontalCenter="0">
@@ -17,7 +17,7 @@
 			<e:Label id="honorText" text="获得了【123456】称号" y="224.24" size="24" horizontalCenter="0"/>
 		</e:Group>
 	</e:Group>
-	<e:Group id="btnGroup" horizontalCenter="2" bottom="350">
+	<e:Group id="btnGroup" horizontalCenter="2" bottom="280">
 		<e:Button id="shareBtn1" label="不能只坑我一个" skinName="Btn1Skin" width="300" x="0" y="0" height="80"/>
 		<e:Button id="shareBtn2" label="向好友炫耀一下" width="300" x="0" y="0" skinName="Btn2Skin" height="80"/>
 		<e:Group id="adGroup" y="877" width="240" height="60" horizontalCenter="0">
@@ -43,7 +43,7 @@
 				<e:HorizontalLayout/>
 				</e:layout>
 			</e:Group>
-			<e:Rect width="100%" height="2" x="0" y="30" fillColor="0xFFFFFF"/>
+			<e:Rect width="100%" height="3" x="0" y="30" fillColor="0xFFFFFF"/>
 			</e:Group>
 			<e:Image top="0" bottom="0" left="0" right="0"/>
 		</e:Group>
@@ -51,10 +51,13 @@
 		<e:VerticalLayout gap="30" horizontalAlign="center"/>
 		</e:layout>
 	</e:Group>
-	<e:List id="list" width="640" height="280" x="0" bottom="0">
+	<e:Group x="0" y="796" visible="false">
+		<e:Image source="black_bg_alpha_png" fillMode="repeat" height="340" y="0" x="0"/>
+		<e:List id="list" width="640" height="280" x="0" y="60">
 			<e:layout>
 			<e:TileLayout requestedColumnCount="5" paddingLeft="30" horizontalGap="20" verticalGap="20" paddingBottom="20" paddingTop="0"/>
-		</e:layout>
-	</e:List>
-	<e:Label text="刚才出现过的小广告" horizontalCenter="0" bottom="300" size="24" textColor="0xadadad"/>
+			</e:layout>
+		</e:List>
+		<e:Label text="刚才出现过的小广告" size="24" textColor="0xadadad" x="212" y="16"/>
+	</e:Group>
 </e:Skin>

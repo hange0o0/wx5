@@ -36,6 +36,7 @@ class RebornUI extends game.BaseWindow_wx5{
                 this.hide();
                 PlayManager.getInstance().onReborn()
                 PlayManager.getInstance().sendGameReborn(type)
+                PKUI.getInstance().reborn()
             },()=>{this.isStoping = false})
         })
 

@@ -32,6 +32,7 @@
 		"bin-debug/game/ADShowUI.js",
 		"bin-debug/game/ChangeJumpUI.js",
 		"bin-debug/game/ChangeUserItem.js",
+		"bin-debug/game/FeedBackUI.js",
 		"bin-debug/game/GameUI.js",
 		"bin-debug/game/PKItem.js",
 		"bin-debug/Main.js",

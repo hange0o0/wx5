@@ -24,7 +24,7 @@ class UserManager_wx5 {
     //
     //
     public isTest = false;
-    public testVersion = 1//与服务器相同则为测试版本
+    public testVersion = 190727//与服务器相同则为测试版本
     public shareFail;
     //
     public gameid: string = 'null';

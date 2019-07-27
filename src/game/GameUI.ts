@@ -14,6 +14,11 @@ class GameUI extends game.BaseUI_wx5 {
     private barMC: eui.Image;
     private con: eui.Group;
     private rankBtn: eui.Image;
+    private feedBackBtn: eui.Image;
+    private ad1: eui.Image;
+    private ad2: eui.Image;
+
+
 
 
 
@@ -34,10 +39,19 @@ class GameUI extends game.BaseUI_wx5 {
              PKUI.getInstance().show();
         })
 
-
+        this.addBtnEvent(this.ad1,()=>{
+            PlayManager.getInstance().showAD(this.ad1['adData'])
+        })
+        this.addBtnEvent(this.ad2,()=>{
+            PlayManager.getInstance().showAD(this.ad2['adData'])
+        })
 
         this.addBtnEvent(this.rankBtn,()=>{
             RankUI.getInstance().show();
+        },this,true)
+
+        this.addBtnEvent(this.feedBackBtn,()=>{
+            FeedBackUI.getInstance().show();
         },this,true)
 
 
@@ -128,6 +142,34 @@ class GameUI extends game.BaseUI_wx5 {
 
     public renew(){
          this.bg.source = PlayManager.getInstance().getBG();
+
+
+        var adArr = PlayManager.getInstance().getListByNum(10);
+
+        var ad = ArrayUtil_wx5.randomOne(adArr,true);
+        if(ad)
+        {
+            this.ad1['adData'] = ad;
+            this.ad1.source = ad.logo
+            this.ad1.visible = true;
+        }
+        else
+        {
+            this.ad1.visible = false;
+        }
+
+
+        var ad = ArrayUtil_wx5.randomOne(adArr,true);
+        if(ad)
+        {
+            this.ad2['adData'] = ad;
+            this.ad2.source = ad.logo
+            this.ad2.visible = true;
+        }
+        else
+        {
+            this.ad2.visible = false;
+        }
     }
 
 }

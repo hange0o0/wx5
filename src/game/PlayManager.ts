@@ -313,7 +313,7 @@ class PlayManager extends egret.EventDispatcher {
         }
     }
 
-    public onDie(data){
+    public onDie(data?){
         this.dieTime = egret.getTimer();
 
         if(this.dieTimes < Math.ceil((egret.getTimer() - this.startTime)/30000))
@@ -440,13 +440,13 @@ class PlayManager extends egret.EventDispatcher {
 
 
     public initADObj(){
-        for(var i=1;i<=15;i++)
+        for(var i=1;i<=50;i++)
         {
             var name = ArrayUtil_wx5.randomOne(this.nameArr)  + 'X' + (Math.random()>0.5?'':'X')
             if(i<=15)
                 var age = Math.floor(Math.random()*8) + 20;
             else
-                var age = Math.floor(Math.random()*8) + 18;
+                var age = Math.floor(Math.random()*5) + 20;
             var job = ArrayUtil_wx5.randomOne(this.jobArr)
             var like = this.likeArr.concat();
             ArrayUtil_wx5.random(like,5);

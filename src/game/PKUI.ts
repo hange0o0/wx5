@@ -50,6 +50,8 @@ class PKUI extends game.BaseUI_wx5 {
         this.item2.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onClick3, this);
         this.item1.startStep = 1;
         this.item2.startStep = 2;
+
+
     }
 
     private onClick2(){
@@ -97,10 +99,10 @@ class PKUI extends game.BaseUI_wx5 {
             SoundManager.getInstance().playEffect('score1')
             return;
         }
+        if(target.isDie)
+            return;
         if(target.isSelf)
         {
-            if(target.isDie)
-                return;
             //var r = 60;
             //var p = target.globalToLocal(e.stageX,e.stageY);
             var len = MyTool.getDistance(target.x,target.y,pp.x,pp.y);
@@ -146,9 +148,25 @@ class PKUI extends game.BaseUI_wx5 {
     public showTimeOver(){
         this.timeOverMC.visible = true;
         this.timeOverMC.scaleX = this.timeOverMC.scaleY = 0
+        PlayManager.getInstance().dieTime = egret.getTimer();
         egret.Tween.get(this.timeOverMC).to({scaleX:1.2,scaleY:1.2},200).to({scaleX:1,scaleY:1},200).wait(1200).call(()=>{
-            PlayManager.getInstance().onGameFinish()
+            PlayManager.getInstance().onDie()
         })
+    }
+
+    public reborn(){
+        this.timeOverMC.visible = false;
+        var num = 3;
+        for(var i=0;i<this.itemArr.length && num > 0;i++)
+        {
+            var target = this.itemArr[i];
+            if(target.isSelf)
+                continue;
+            if(target.isDie)
+                continue;
+            target.onClick();
+            num--;
+        }
     }
 
     public onShow(){
@@ -256,7 +274,7 @@ class PKUI extends game.BaseUI_wx5 {
             PKItem.freeItem(this.itemArr.pop())
         }
 
-        var num = Math.ceil(GameManager_wx5.uiHeight/60);
+        var num = Math.ceil(GameManager_wx5.uiHeight/70);
         var myNum = Math.floor(num*0.5);
         num -= myNum;
 

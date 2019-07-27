@@ -44,7 +44,7 @@ class PKItem2 extends game.BaseItem{
         else if(this.addY < 0 && this.y < -120)
         {
             this.addY = -this.addY
-            if(this.startStep == 1 && !PM.isGameOver && PM.gameStep == 1 && !PM.dieTime)
+            if(this.startStep == 1 && !PM.isGameOver && PM.gameStep == 1 && !PM.dieTime && !PKUI.getInstance().showTimeOver())
             {
                 PM.gameStep ++;
                 SoundManager.getInstance().playEffect('laugh1')

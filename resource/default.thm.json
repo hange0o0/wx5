@@ -24,6 +24,7 @@
 		"resource/skin/game/ADShowUISkin.exml",
 		"resource/skin/game/ChangeJumpUISkin.exml",
 		"resource/skin/game/ChangeUserItemSkin.exml",
+		"resource/skin/game/FeedBackUISkin.exml",
 		"resource/skin/game/GameUISkin.exml",
 		"resource/skin/game/PKItem2Skin.exml",
 		"resource/skin/game/PKItemSkin.exml",

@@ -293,6 +293,15 @@ function sendClientError(str){
     var url =  'https://www.hangegame.com/error_wx5/log_error.php'
     Net.getInstance().send(url,{str:str});
 }
+
+function sendFeedBack(str){
+    try{
+        str =  UM_wx5.gameid + "--" + str
+    }catch(e){}
+    var url =  'https://www.hangegame.com/error_wx5/log_feedback.php'
+    Net.getInstance().send(url,{str:str});
+}
+
 //window.onerror=handleErr;
 
 
