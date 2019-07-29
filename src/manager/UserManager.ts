@@ -32,6 +32,13 @@ class UserManager_wx5 {
     public score = 0;
     public dbid: string;
     public playTimes
+
+    public coinTimes
+    public coin
+    public propLevel;
+    public lastTime;
+
+
     //
     //public coin: number = 999;
     //public level: number = 1;
@@ -77,44 +84,37 @@ class UserManager_wx5 {
         this.time = data.time;
         this.score = data.score;
         this.playTimes = data.playTimes || 0;
+
+
+        this.coin = data.coin || 0;
+        this.lastTime = data.lastTime || 0;
+        this.coinTimes = data.coinTimes || 0;
+        this.propLevel = data.propLevel || {};
+
+
         this.localSave();
     }
-    //
-    //public getPassDayCoin(){
-    //    return Math.floor(this.level * 5*Math.pow(1.23,this.level/10))*100
-    //}
-    //
-    //public testPassDay(){
-    //    if(!DateUtil_wx5.isSameDay(this.pastDayCoin.t))
-    //    {
-    //        this.pastDayCoin.t = TM_wx5.now();
-    //        this.videoMakeTimes = 0;
-    //        this.coinTimes = 0;
-    //        this.pastDayCoin.coin = this.getPassDayCoin();
-    //        this.needUpUser = true
-    //    }
-    //}
-    //
-    //public renewInfo(userInfo){
-    //    if(!userInfo)
-    //        return;
-    //    this.haveGetUser = true;
-    //    this.nick = userInfo.nickName
-    //    this.head = userInfo.avatarUrl
-    //    this.gender = userInfo.gender || 1 //性别 0：未知、1：男、2：女
-    //    this.testAddInvite();
-    //}
-    //public addCoin(v,stopSave?){
-    //    if(!v)
-    //        return;
-    //    this.coin += v;
-    //    if(this.coin < 0)
-    //        this.coin = 0;
-    //    if(!stopSave)
-    //        UM_wx5.needUpUser = true;
-    //    EM_wx5.dispatch(GameEvent.client.COIN_CHANGE)
-    //}
-    //
+
+    public testPassDay(){
+        if(!DateUtil_wx5.isSameDay(this.lastTime))
+        {
+            this.lastTime = TM_wx5.now();
+            this.coinTimes = 0;
+            this.needUpUser = true
+        }
+    }
+
+    public addCoin(v,stopSave?){
+        if(!v)
+            return;
+        this.coin += v;
+        if(this.coin < 0)
+            this.coin = 0;
+        if(!stopSave)
+            UM_wx5.needUpUser = true;
+        EM_wx5.dispatch(GameEvent.client.COIN_CHANGE)
+    }
+
     public getUserInfo(fun?){
         var wx = window['wx'];
         if(!wx)
@@ -175,55 +175,7 @@ class UserManager_wx5 {
             }
         })
     }
-    //
-    //public renewFriendNew(fun)
-    //{
-    //    if(TM_wx5.now() - this.initDataTime < 5*60)
-    //    {
-    //        fun && fun();
-    //        return;
-    //    }
-    //    this.initDataTime = TM_wx5.now();
-    //    var wx = window['wx'];
-    //    if(!wx)
-    //    {
-    //        fun && fun();
-    //        return;
-    //    }
-    //    const db = wx.cloud.database();
-    //    db.collection('user').where({     //取玩家数据
-    //        _openid: this.gameid,
-    //    }).get({
-    //        success: (res)=>{
-    //            var data = res.data[0];
-    //            this.shareUser = data.shareUser;
-    //            fun && fun();
-    //        }
-    //    })
-    //}
-    //
-    //private testAddInvite(){
-    //    if(this.helpUser && this.haveGetUser)
-    //    {
-    //        var wx = window['wx'];
-    //        if(!wx)
-    //            return;
-    //        wx.cloud.callFunction({      //取玩家openID,
-    //            name: 'onShareIn',
-    //            data:{
-    //                other:this.helpUser,
-    //                nick:UM_wx5.nick,
-    //                head:UM_wx5.head,
-    //            },
-    //            complete: (res) => {
-    //                console.log(res)
-    //                this.helpUser = null;
-    //                this.needUpUser = true;
-    //            }
-    //        })
-    //    }
-    //}
-    //
+
     //新用户注册
     private onNewUser(fun?){
         //console.log('newUser')
@@ -239,7 +191,6 @@ class UserManager_wx5 {
             }
         })
         //
-        //this.needUpUser = true;
     }
 
     private orginUserData(){
@@ -247,7 +198,7 @@ class UserManager_wx5 {
              saveTime:0,
              time:0,
              score:0,
-
+             coin:100,
          };
     }
 
@@ -256,6 +207,10 @@ class UserManager_wx5 {
             time:UM_wx5.time,
             score:UM_wx5.score,
             playTimes:UM_wx5.playTimes,
+            coin:UM_wx5.coin,
+            coinTimes:UM_wx5.coinTimes,
+            lastTime:UM_wx5.lastTime,
+            propLevel:UM_wx5.propLevel,
             saveTime:TM_wx5.now(),
         };
     }
@@ -315,5 +270,13 @@ class UserManager_wx5 {
     }
 	private wx5_functionX_28129(){console.log(1895)}
 
+    public checkCoin(v){
+        if(this.coin < v)
+        {
+            NotEnoughCoinUI.getInstance().show();
+            return false
+        }
+        return true
+    }
 
 }

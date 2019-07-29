@@ -9,6 +9,9 @@ class GameEvent {
         MAKE_CHANGE:'MAKE_CHANGE',
 
 
+        PROP_CHANGE:'PROP_CHANGE',
+
+
         ADD_BOSS:'ADD_BOSS',
         REMOVE_BOSS:'REMOVE_BOSS',
 

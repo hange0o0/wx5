@@ -14,6 +14,8 @@ class PlayManager extends egret.EventDispatcher {
         super();
     }
 
+    public propTime = {}; //道具BUFFCD
+
     public extraData;//外部带入的数据
     public finishExtraUin = -1//已完成的Uin
     public alertUin = -1//已完成的Uin
@@ -283,6 +285,7 @@ class PlayManager extends egret.EventDispatcher {
     public initGame(){
         this.resetADList();
         this.score = 0
+        this.propTime = {};
         this.lastClick = 0
         this.maxCD = 0
         this.startTime = 0

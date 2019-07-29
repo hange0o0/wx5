@@ -15,26 +15,16 @@
 				<e:Image id="record2" source="new_record_png" right="-90" top="-15"/>
 			</e:Group>
 			<e:Label id="honorText" text="获得了【123456】称号" y="224.24" size="24" horizontalCenter="0"/>
+			<e:Group y="280" horizontalCenter="0">
+				<e:Image source="border_png" x="0" verticalCenter="0" width="180" scale9Grid="33,6,32,42"/>
+				<e:Image source="icon_coin_png" x="4" verticalCenter="0"/>
+				<e:Label id="coinText" text="+123" size="24" verticalCenter="0" horizontalCenter="10"/>
+			</e:Group>
 		</e:Group>
 	</e:Group>
 	<e:Group id="btnGroup" horizontalCenter="2" bottom="280">
-		<e:Button id="shareBtn1" label="不能只坑我一个" skinName="Btn1Skin" width="300" x="0" y="0" height="80"/>
-		<e:Button id="shareBtn2" label="向好友炫耀一下" width="300" x="0" y="0" skinName="Btn2Skin" height="80"/>
-		<e:Group id="adGroup" y="877" width="240" height="60" horizontalCenter="0">
-			<e:Group horizontalCenter="0" verticalCenter="0">
-			<e:Group x="0" y="0">
-				<e:Label text="观看广告" x="0" y="0" size="24" textColor="0xfff1c9"/>
-				<e:Label text="-&gt;" x="10" y="10" size="24"/>
-				<e:Label text="关闭" x="20" y="20" size="24" textColor="0xd3d3d3"/>
-				<e:layout>
-				<e:HorizontalLayout/>
-				</e:layout>
-			</e:Group>
-			<e:Rect width="100%" height="2" x="0" y="30" fillColor="0xffffff"/>
-			</e:Group>
-			<e:Image id="viedoBtn" top="0" bottom="0" width="60%" left="0"/>
-			<e:Image id="closeBtn" top="0" bottom="0" width="40%" right="0"/>
-		</e:Group>
+		<e:Button id="shareBtn2" label="领取 3 倍金币" width="300" x="0" y="0" skinName="Btn2Skin" height="80" icon="video_icon_png"/>
+		<e:Button id="shareBtn1" label="向好友炫耀一下" skinName="Btn1Skin" width="300" x="0" y="0" height="80"/>
 		<e:Group id="closeBtn2" y="877" width="240" height="60" horizontalCenter="0">
 			<e:Group horizontalCenter="0" verticalCenter="0">
 			<e:Group x="0" y="0">

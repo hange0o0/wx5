@@ -10,13 +10,31 @@ class GameUI extends game.BaseUI_wx5 {
 
     private bg: eui.Image;
     private startBtn: eui.Button;
-    private soundBtn: eui.Image;
     private barMC: eui.Image;
     private con: eui.Group;
-    private rankBtn: eui.Image;
-    private feedBackBtn: eui.Image;
     private ad1: eui.Image;
     private ad2: eui.Image;
+    private prop1: eui.Group;
+    private red1: eui.Image;
+    private lvText1: eui.Label;
+    private prop2: eui.Group;
+    private red2: eui.Image;
+    private lvText2: eui.Label;
+    private prop3: eui.Group;
+    private red3: eui.Image;
+    private lvText3: eui.Label;
+    private prop4: eui.Group;
+    private red4: eui.Image;
+    private lvText4: eui.Label;
+    private prop5: eui.Group;
+    private red5: eui.Image;
+    private lvText5: eui.Label;
+    private coinText: eui.Label;
+    private soundBtn: eui.Image;
+    private rankBtn: eui.Image;
+    private feedBackBtn: eui.Image;
+
+
 
 
 
@@ -31,7 +49,7 @@ class GameUI extends game.BaseUI_wx5 {
     public childrenCreated() {
         super.childrenCreated();
         this.addBtnEvent(this.startBtn,()=>{
-             if(PlayManager.getInstance().adList.length == 0)
+             if(UM_wx5.isTest && PlayManager.getInstance().adList.length == 0)
              {
                  MyWindow.ShowTips('正在组装敌人，请稍后')
                  return;
@@ -48,11 +66,28 @@ class GameUI extends game.BaseUI_wx5 {
 
         this.addBtnEvent(this.rankBtn,()=>{
             RankUI.getInstance().show();
-        },this,true)
+        },this)
 
         this.addBtnEvent(this.feedBackBtn,()=>{
             FeedBackUI.getInstance().show();
-        },this,true)
+        },this)
+
+
+        this.addBtnEvent(this.prop1,()=>{
+            PropInfoUI.getInstance().show(1);
+        },this)
+        this.addBtnEvent(this.prop2,()=>{
+            PropInfoUI.getInstance().show(2);
+        },this)
+        this.addBtnEvent(this.prop3,()=>{
+            PropInfoUI.getInstance().show(3);
+        },this)
+        this.addBtnEvent(this.prop4,()=>{
+            PropInfoUI.getInstance().show(4);
+        },this)
+        this.addBtnEvent(this.prop5,()=>{
+            PropInfoUI.getInstance().show(5);
+        },this)
 
 
         this.addBtnEvent(this.soundBtn,()=>{
@@ -118,6 +153,22 @@ class GameUI extends game.BaseUI_wx5 {
 
        PlayManager.getInstance().testShowExtra();
         this.addPanelOpenEvent(GameEvent.client.timerE,this.onE)
+        this.addPanelOpenEvent(GameEvent.client.PROP_CHANGE,this.renewProp)
+        this.addPanelOpenEvent(GameEvent.client.COIN_CHANGE,this.renewCoin)
+    }
+
+    private renewProp(){
+        var PM = PropManager.getInstance();
+        for(var i=1;i<=5;i++)
+        {
+            this['red' + i].visible = PM.getUpCost(i) <= UM_wx5.coin;
+            this['lvText' + i].text = 'LV.' + PM.getLevel(i);
+        }
+    }
+
+    private renewCoin(){
+       this.coinText.text = NumberUtil_wx5.addNumSeparator(UM_wx5.coin)
+        this.renewProp();
     }
 
     private onE() {
@@ -142,7 +193,7 @@ class GameUI extends game.BaseUI_wx5 {
 
     public renew(){
          this.bg.source = PlayManager.getInstance().getBG();
-
+            this.renewCoin();
 
         var adArr = PlayManager.getInstance().getListByNum(10);
 

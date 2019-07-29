@@ -5,7 +5,7 @@ class PKItem2 extends game.BaseItem{
     private desText: eui.Label;
 
 
-    public speed = 3;
+    public speed = 6;
     public addY = 1;
     public adObj;
     public isItem = true;
@@ -44,7 +44,7 @@ class PKItem2 extends game.BaseItem{
         else if(this.addY < 0 && this.y < -120)
         {
             this.addY = -this.addY
-            if(this.startStep == 1 && !PM.isGameOver && PM.gameStep == 1 && !PM.dieTime && !PKUI.getInstance().showTimeOver())
+            if(this.startStep == 1 && !PM.isGameOver && PM.gameStep == 1 && !PM.dieTime)
             {
                 PM.gameStep ++;
                 SoundManager.getInstance().playEffect('laugh1')

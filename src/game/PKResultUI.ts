@@ -6,20 +6,20 @@ class PKResultUI extends game.BaseUI_wx5{
         return this._instance;
     }
 
+    private bg: eui.Image;
     private cdText: eui.Label;
     private record1: eui.Image;
     private scoreText: eui.Label;
     private record2: eui.Image;
     private honorText: eui.Label;
+    private coinText: eui.Label;
     private btnGroup: eui.Group;
-    private shareBtn1: eui.Button;
     private shareBtn2: eui.Button;
-    private adGroup: eui.Group;
-    private viedoBtn: eui.Image;
-    private closeBtn: eui.Image;
-    private bg: eui.Image;
+    private shareBtn1: eui.Button;
     private closeBtn2: eui.Group;
     private list: eui.List;
+
+
 
 
     private shareText = ''
@@ -37,13 +37,13 @@ class PKResultUI extends game.BaseUI_wx5{
         super.childrenCreated();
         this.list.itemRenderer = ChangeUserItem
 
-        this.addBtnEvent(this.closeBtn,this.close)
+        //this.addBtnEvent(this.closeBtn,this.close)
         this.addBtnEvent(this.closeBtn2,this.close)
 
-        this.addBtnEvent(this.viedoBtn,()=>{
-            ShareTool.openGDTV(()=>{
-            })
-        })
+        //this.addBtnEvent(this.viedoBtn,()=>{
+        //    ShareTool.openGDTV(()=>{
+        //    })
+        //})
 
         this.addBtnEvent(this.shareBtn1,()=>{
             ShareTool.share('自从玩了这个 游戏广告再也无法干扰到我了',Config.localResRoot + "share1.jpg",{},null,true)
@@ -53,7 +53,7 @@ class PKResultUI extends game.BaseUI_wx5{
             ShareTool.share(this.shareText,Config.localResRoot + "share2.jpg",{},null,true)
         })
 
-        MyTool.removeMC(this.adGroup)
+        //MyTool.removeMC(this.adGroup)
     }
 
     public close(){

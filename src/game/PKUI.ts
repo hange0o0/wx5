@@ -156,11 +156,21 @@ class PKUI extends game.BaseUI_wx5 {
 
     public reborn(){
         this.timeOverMC.visible = false;
-        var num = 3;
+        this.removeEnemy(3);
+
+    }
+
+    public removeCountDown(item){
+
+    }
+
+    private removeEnemy(num){
         for(var i=0;i<this.itemArr.length && num > 0;i++)
         {
             var target = this.itemArr[i];
             if(target.isSelf)
+                continue;
+            if(target.isProp)
                 continue;
             if(target.isDie)
                 continue;
@@ -184,16 +194,25 @@ class PKUI extends game.BaseUI_wx5 {
             item.move();
             if(item.isDie == 2)
             {
+                var isSelf = item.isSelf
                 this.itemArr.splice(i,1)
                 PKItem.freeItem(item)
                 i--;
 
                 //加回去1个
-                var item2 = PKItem.createItem();
-                this.itemArr.unshift(item2)
-                this.con.addChildAt(item2,0)
-                item2.renewSelf();
-                item2.speed *=(1 + (egret.getTimer() - PM.startTime)/1000/150)
+                if(isSelf)
+                {
+                    var item2 = PKItem.createItem();
+                    this.itemArr.unshift(item2)
+                    this.con.addChildAt(item2,0)
+                    item2.renewSelf();
+                    item2.speed *=(1 + (egret.getTimer() - PM.startTime)/1000/150)
+                }
+                else
+                {
+                    len --;
+                }
+
             }
         }
         this.item1.move()

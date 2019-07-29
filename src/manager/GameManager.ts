@@ -8,7 +8,7 @@ class GameManager_wx5 {
 	private wx5_functionX_28089(){console.log(888)}
 
     private timeID: egret.Timer;
-    private timeE = new MyTimer(1000/60);
+    private timeE = new MyTimer(1000/30);
     private lastTime: number;
     public lastTouchTime: number;
     public lastTouchMC;
@@ -212,7 +212,7 @@ class GameManager_wx5 {
             //DayGameManager.getInstance().passDay();
             //GuessManager.getInstance().passDay();
 
-            //UM_wx5.testPassDay();
+            UM_wx5.testPassDay();
 	wx5_function(4869);
             EM_wx5.dispatch(GameEvent.client.pass_day);
         }

@@ -1,6 +1,6 @@
 {
 	"groups":[{
-			"keys":"window_bg_png,black_bg_alpha_png,close_btn_png,btn_png,btn2_png,item_png,black_bg_png,btn3_png,arrow_png,lock_icon_png,border_png,skin_btn_png,sound_btn1_png,sound_btn2_png,friend_btn_png,arrow3_png,video_icon_png,arrow_btn_png,common_head_bg_jpg,ui_loading_png,btn_mp3,count_down_mp3,error_mp3,laugh1_mp3,laugh2_mp3,score1_mp3,score2_mp3,score3_mp3,score4_mp3,time_over_mp3",
+			"keys":"window_bg_png,black_bg_alpha_png,close_btn_png,btn_png,btn2_png,item_png,black_bg_png,btn3_png,arrow_png,lock_icon_png,border_png,skin_btn_png,sound_btn1_png,sound_btn2_png,friend_btn_png,arrow3_png,video_icon_png,arrow_btn_png,common_head_bg_jpg,ui_loading_png,btn_mp3,count_down_mp3,error_mp3,laugh1_mp3,laugh2_mp3,score1_mp3,score2_mp3,score3_mp3,score4_mp3,time_over_mp3,prop_5_png,ring_png,prop_1_png,prop_2_png,prop_3_png,prop_4_png",
 			"name":"preload_png"
 		}],
 	"resources":[
@@ -573,6 +573,56 @@
 			"name":"head_26_png",
 			"type":"image",
 			"url":"game_assets/ad/head_26.png"
+		},
+		{
+			"name":"prop_5_png",
+			"type":"image",
+			"url":"game_assets/prop_5.png"
+		},
+		{
+			"name":"ring_png",
+			"type":"image",
+			"url":"game_assets/ring.png"
+		},
+		{
+			"name":"prop_1_png",
+			"type":"image",
+			"url":"game_assets/prop_1.png"
+		},
+		{
+			"name":"prop_2_png",
+			"type":"image",
+			"url":"game_assets/prop_2.png"
+		},
+		{
+			"name":"prop_3_png",
+			"type":"image",
+			"url":"game_assets/prop_3.png"
+		},
+		{
+			"name":"prop_4_png",
+			"type":"image",
+			"url":"game_assets/prop_4.png"
+		},
+		{
+			"name":"red_mc_png",
+			"type":"image",
+			"url":"game_assets/red_mc.png"
+		},
+		{
+			"name":"icon_coin_png",
+			"type":"image",
+			"url":"game_assets/icon_coin.png"
+		},
+		{
+			"name":"main_shop_png",
+			"type":"image",
+			"url":"game_assets/main_shop.png"
+		},
+		{
+			"name":"black_round_mc_png",
+			"type":"image",
+			"url":"game_assets/black_round_mc.png"
 		}
 	]
 }

@@ -6,6 +6,7 @@ class PKItem extends game.BaseItem{
         {
             item = new PKItem();
         }
+        item.isProp = 0
         return item;
     }
     public static freeItem(item){
@@ -21,6 +22,7 @@ class PKItem extends game.BaseItem{
 
     public isItem = true;
 
+    public createTime = 0;
     public speed = 1;
     public addX = 1;
     public addY = 1
@@ -29,6 +31,7 @@ class PKItem extends game.BaseItem{
     public clickNum = 0
     public adObj;
     public isDie = 0 ;
+    public isProp = 0 ;
 
     public constructor() {
         super();
@@ -70,7 +73,7 @@ class PKItem extends game.BaseItem{
             this.x = Math.random() * GameManager_wx5.uiWidth
         }
 
-        this.speed = (0.9 + Math.random()*0.2)*4
+        this.speed = (0.9 + Math.random()*0.2)*8
     }
 
     public renewSelf(isInit?,index?){
@@ -104,6 +107,15 @@ class PKItem extends game.BaseItem{
         this.mc.source = this.adObj.logo
     }
 
+
+    public renewProp(propID){
+        this.isProp = propID;
+        this.resetXY();
+        this.speed *= 1.5;
+        this.createTime = (egret.getTimer() - PlayManager.getInstance().startTime)
+        //this.mc.source = this.adObj.logo
+    }
+
     public move(){
         if(this.isDie)
         {
@@ -117,18 +129,46 @@ class PKItem extends game.BaseItem{
         var parent = this.parent;
         if(!parent)
             return;
+
+        var needRemove = false;
+        if(this.isProp)
+        {
+            needRemove = (egret.getTimer() - PlayManager.getInstance().startTime) - this.createTime > 20*1000
+        }
+
+
         this.x += this.addX*this.speed
         this.y += this.addY*this.speed
 
         if(this.addX > 0 && this.x > parent.width-50)
-            this.addX = -this.addX
+        {
+            if(needRemove)
+                this.isDie = 1;
+            else
+                this.addX = -this.addX
+        }
         else if(this.addX < 0 && this.x < 50)
-            this.addX = -this.addX
+        {
+            if(needRemove)
+                this.isDie = 1;
+            else
+                this.addX = -this.addX
+        }
 
         if(this.addY > 0 && this.y > parent.height - 50)
-            this.addY = -this.addY
+        {
+            if(needRemove)
+                this.isDie = 1;
+            else
+                this.addY = -this.addY
+        }
         else if(this.addY < 0 && this.y < 50)
-            this.addY = -this.addY
+        {
+            if(needRemove)
+                this.isDie = 1;
+            else
+                this.addY = -this.addY
+        }
     }
 
     public remove(){

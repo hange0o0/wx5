@@ -8,6 +8,11 @@
 		<e:Image source="black_bg_png" x="0" y="0" width="640" height="18"/>
 		<e:Image id="barMC" source="yellor_bg_png" y="4" width="632" x="4" height="10"/>
 	</e:Group>
+	<e:Group id="propGroup" height="100" y="30" right="10" touchChildren="false" touchEnabled="false">
+		<e:layout>
+			<e:HorizontalLayout gap="10"/>
+		</e:layout>
+	</e:Group>
 	<e:Label id="cdText" text="Label" x="20" y="30" size="24"/>
 	<e:Label id="scoreText" text="Label" y="60" size="24" x="20"/>
 	<e:Image id="readyBG" source="black_bg_alpha_png" left="0" right="0" top="0" bottom="0" locked="true"/>
