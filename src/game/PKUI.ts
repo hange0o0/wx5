@@ -12,6 +12,7 @@ class PKUI extends game.BaseUI_wx5 {
     private item1: PKItem2;
     private item2: PKItem2;
     private barGroup: eui.Group;
+    private propGroup: eui.Group;
     private barMC: eui.Image;
     private cdText: eui.Label;
     private scoreText: eui.Label;
@@ -28,6 +29,7 @@ class PKUI extends game.BaseUI_wx5 {
 
     public itemArr = []
     public txtPool = []
+    public propArr = []
     private barWidth = 632;
 
 
@@ -55,6 +57,11 @@ class PKUI extends game.BaseUI_wx5 {
     }
 
     private onClick2(){
+        if(PlayManager.getInstance().propTime[5])
+        {
+            SoundManager.getInstance().playEffect('score1')
+            return;
+        }
         if(this.timeOverMC.visible)
             return;
         SoundManager.getInstance().playEffect('error');
@@ -64,6 +71,11 @@ class PKUI extends game.BaseUI_wx5 {
 
     }
     private onClick3(){
+        if(PlayManager.getInstance().propTime[5])
+        {
+            SoundManager.getInstance().playEffect('score1')
+            return;
+        }
         if(this.timeOverMC.visible)
             return;
         SoundManager.getInstance().playEffect('error');
@@ -71,6 +83,14 @@ class PKUI extends game.BaseUI_wx5 {
             PlayManager.getInstance().onDie(this.item2.adObj)
         //},300)
 
+    }
+
+    private resetClickCD(){
+        var PM = PlayManager.getInstance();
+        PM.maxCD = Math.max(500,3000 - (egret.getTimer() - PM.startTime)/100*1.5)
+        if(PlayManager.getInstance().propTime[4])
+            PM.maxCD += PropManager.getInstance().getPropValue(4)*1000;
+        PM.lastClick = egret.getTimer();
     }
 
     private onClick(e){
@@ -112,15 +132,80 @@ class PKUI extends game.BaseUI_wx5 {
             PM.score += addScore;
             this.scoreText.text = '积分：' + PM.score
 
-            PM.maxCD = Math.max(500,3000 - (egret.getTimer() - PM.startTime)/100*1.5)
-            PM.lastClick = egret.getTimer();
+            this.resetClickCD();
+
             this.showWord(target,step,addScore);
             target.onClick();
         }
+        else if(target.isProp)
+        {
+            //SoundManager.getInstance().playEffect('error');
+            target.onClick();
+            if(target.isProp == 2)
+            {
+                SoundManager.getInstance().playEffect('bomb');
+                //爆炸动画
+                var mc = new eui.Image('ring_png')
+                this.con.addChild(mc)
+                mc.x = pp.x
+                mc.y = pp.y
+                mc.anchorOffsetX = 251/2
+                mc.anchorOffsetY = 251/2
+                egret.Tween.get(mc).to({scaleX:2,scaleY:2,alpha:0},200).call(()=>{
+                    MyTool.removeMC(mc);
+                })
+                //
+                for(var i=0;i<this.itemArr.length;i++)
+                {
+                    var target = this.itemArr[i];
+                    if(target.isSelf)
+                        continue;
+                    if(target.isProp)
+                        continue;
+                    if(target.isDie)
+                        continue;
+                    r = PropManager.getInstance().getPropValue(2) + 50;
+                    if(Math.abs(target.x - pp.x) <= r && Math.abs(target.y - pp.y) <= r && MyTool.getDistance(target.x,target.y,pp.x,pp.y) <= r)
+                    {
+                        target.onClick();
+                    }
+                }
+            }
+            else if(target.isProp == 3)
+            {
+                SoundManager.getInstance().playEffect('cut');
+                 this.removeEnemy(PropManager.getInstance().getPropValue(3));
+            }
+            else
+            {
+                SoundManager.getInstance().playEffect('reward');
+                PlayManager.getInstance().addProp(target.isProp)
+                var propItem = CountDownItem.createItem();
+                this.propArr.push(propItem)
+                this.propGroup.addChild(propItem)
+                var cd = 15*30;
+                if(target.isProp == 5)
+                    cd = Math.round(PropManager.getInstance().getPropValue(5)*30)
+                propItem.data = {
+                    id:target.isProp,
+                    max:cd
+                }
+            }
+
+            this.resetClickCD();
+        }
         else
         {
-            SoundManager.getInstance().playEffect('error');
-            PM.onDie(target.adObj)
+            if(!PlayManager.getInstance().propTime[5])
+            {
+                SoundManager.getInstance().playEffect('error');
+                PM.onDie(target.adObj)
+            }
+            else
+            {
+                SoundManager.getInstance().playEffect('score1')
+            }
+
             //setTimeout(()=>{
             //    PM.showAD(target.adObj)
             //},300)
@@ -157,11 +242,16 @@ class PKUI extends game.BaseUI_wx5 {
     public reborn(){
         this.timeOverMC.visible = false;
         this.removeEnemy(3);
-
+        SoundManager.getInstance().playEffect('reborn');
     }
 
     public removeCountDown(item){
-
+        var index = this.propArr.indexOf(item);
+        if(index != -1)
+            this.propArr.splice(index,1);
+        CountDownItem.freeItem(item);
+        if(PlayManager.getInstance().propTime[item.data.id])
+            PlayManager.getInstance().propTime[item.data.id] --;
     }
 
     private removeEnemy(num){
@@ -240,6 +330,12 @@ class PKUI extends game.BaseUI_wx5 {
         }
         else if(!PM.isGameOver && !PM.dieTime && !this.timeOverMC.visible)
         {
+            for(var i=0;i<this.propArr.length;i++)
+            {
+                if(this.propArr[i].onE())
+                    i--;
+            }
+
             var cd = egret.getTimer() - PM.startTime
             var cd1 = Math.floor(cd/1000)
             var cd2 = Math.floor(cd/1000*100)%100
@@ -280,6 +376,17 @@ class PKUI extends game.BaseUI_wx5 {
                 this.item2.move()
             }
 
+            if(egret.getTimer() - PM.lastAddProp > 15*1000)
+            {
+                PM.lastAddProp = egret.getTimer();
+                var item2 = PKItem.createItem();
+                this.itemArr.push(item2)
+                this.con.addChildAt(item2,0)
+                item2.renewProp(Math.ceil(Math.random()*5));
+                item2.speed *=(1 + (egret.getTimer() - PM.startTime)/1000/150)
+                this.item2.move()
+            }
+
         }
     }
 
@@ -291,6 +398,10 @@ class PKUI extends game.BaseUI_wx5 {
         while(this.itemArr.length)
         {
             PKItem.freeItem(this.itemArr.pop())
+        }
+        while(this.propArr.length)
+        {
+            CountDownItem.freeItem(this.propArr.pop())
         }
 
         var num = Math.ceil(GameManager_wx5.uiHeight/70);

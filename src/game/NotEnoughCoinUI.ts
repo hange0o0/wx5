@@ -56,7 +56,7 @@ class NotEnoughCoinUI extends game.BaseWindow_wx5 {
     }
 
     public onShow(){
-        this.coin = 1000
+        this.coin = 500 + 100*UM_wx5.coinTimes;
 
         this.coinText.text = ''  + this.coin
         this.desText.text = '今日还可领取 '+(10 - UM_wx5.coinTimes)+' 次'

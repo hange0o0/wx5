@@ -15,6 +15,7 @@ class PlayManager extends egret.EventDispatcher {
     }
 
     public propTime = {}; //道具BUFFCD
+    public speedRate = 1//减速时的加成
 
     public extraData;//外部带入的数据
     public finishExtraUin = -1//已完成的Uin
@@ -34,6 +35,7 @@ class PlayManager extends egret.EventDispatcher {
     public gameStep = 0
     public isGameOver = true
     public lastAddAD = 0
+    public lastAddProp = 0
 
     public cloudPath = 'cloud://server1-8635ef.7365-server1-8635ef/'
     public myAppID = 'wxe2875716299fa092'
@@ -295,11 +297,13 @@ class PlayManager extends egret.EventDispatcher {
         this.dieTimes = 0
         this.startTime = egret.getTimer();
         this.isGameOver = true
+        this.speedRate = 1-PropManager.getInstance().getPropValue(1)/100;
     }
     public startGame(){
         this.startTime = egret.getTimer();
         this.lastClick  = this.startTime
         this.lastAddAD  = this.startTime
+        this.lastAddProp  = this.lastAddProp
         this.maxCD = 3000
         this.countDown = 0
         this.gameStep = 0
@@ -329,6 +333,10 @@ class PlayManager extends egret.EventDispatcher {
             this.onGameFinish();
         }
         //ADShowUI.getInstance().show(data)
+    }
+
+    public addProp(propID){
+       this.propTime[propID] = (this.propTime[propID] || 0) + 1
     }
 
     public onReborn(){

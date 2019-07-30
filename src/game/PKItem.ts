@@ -113,7 +113,7 @@ class PKItem extends game.BaseItem{
         this.resetXY();
         this.speed *= 1.5;
         this.createTime = (egret.getTimer() - PlayManager.getInstance().startTime)
-        //this.mc.source = this.adObj.logo
+        this.mc.source = 'prop_'+propID+'_png'
     }
 
     public move(){
@@ -129,16 +129,20 @@ class PKItem extends game.BaseItem{
         var parent = this.parent;
         if(!parent)
             return;
-
+        var PM = PlayManager.getInstance();
         var needRemove = false;
         if(this.isProp)
         {
-            needRemove = (egret.getTimer() - PlayManager.getInstance().startTime) - this.createTime > 20*1000
+            needRemove = (egret.getTimer() - PM.startTime) - this.createTime > 20*1000
         }
 
+        var speed = this.speed;
+        if(PM.propTime[1])
+            speed *= PM.speedRate;
 
-        this.x += this.addX*this.speed
-        this.y += this.addY*this.speed
+
+        this.x += this.addX*speed
+        this.y += this.addY*speed
 
         if(this.addX > 0 && this.x > parent.width-50)
         {

@@ -37,7 +37,13 @@ class PKItem2 extends game.BaseItem{
         var PM = PlayManager.getInstance()
         if(PM.gameStep < this.startStep)
             return;
-        this.y += this.addY*this.speed
+
+        var speed = this.speed;
+        if(PM.propTime[1])
+            speed *= PM.speedRate;
+
+
+        this.y += this.addY*speed
 
         if(this.addY > 0 && this.y > GameManager_wx5.uiHeight)
             this.addY = -this.addY

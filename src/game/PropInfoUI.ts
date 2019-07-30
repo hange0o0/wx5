@@ -30,6 +30,7 @@ class PropInfoUI extends game.BaseWindow_wx5 {
                 return;
             PM.upProp(this.propid);
             this.renew();
+            SoundManager.getInstance().playEffect('buy');
         })
 
 
@@ -62,7 +63,9 @@ class PropInfoUI extends game.BaseWindow_wx5 {
         this.levelText.text = 'LV.' + lv;
         this.icon.source = 'prop_'+this.propid+'_png'
 
-        this.coinText.text = PM.getUpCost(this.propid)
+        var cost = PM.getUpCost(this.propid);
+        this.coinText.text = cost
+        this.coinText.textColor = cost > UM_wx5.coin?0xFF0000:0xFFFFFF
     }
 
 }

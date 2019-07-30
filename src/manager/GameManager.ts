@@ -350,6 +350,7 @@ if(window["wx"])
         if(!GameManager_wx5.stage)
             return;
         SoundManager.getInstance().playSound('bg');
+        GameManager_wx5.getInstance().isActive = true;
         //GameManager.stage.dispatchEventWith(egret.Event.ACTIVATE);
         EM_wx5.dispatch(egret.Event.ACTIVATE)
 

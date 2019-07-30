@@ -16,10 +16,10 @@ class PropManager extends egret.EventDispatcher {
 
     public baseData = {
         1:{name:'冰冻',des:'使所有单位的移动速度降低$value$%，持续15秒',base:30,add:2,coin:100,coinAdd:100},
-        2:{name:'炸弹',des:'点击后消灭$value$范围内的敌人',base:80,add:5,coin:100,coinAdd:100},
-        3:{name:'刷子',des:'马上消灭地图上$value$个敌人',base:3,add:1,coin:200,coinAdd:200},
+        2:{name:'炸弹',des:'点击后消灭$value$范围内的敌人',base:80,add:5,coin:200,coinAdd:200},
+        3:{name:'刷子',des:'马上消灭地图上$value$个敌人',base:3,add:1,coin:500,coinAdd:500},
         4:{name:'时间延长',des:'增加每次点击限制时间$value$秒，持续15秒',base:1,add:0.1,coin:100,coinAdd:100},
-        5:{name:'护盾',des:'在$value$秒内，即使点错也不会失败',base:8,add:1,coin:200,coinAdd:200},
+        5:{name:'护盾',des:'在$value$秒内，即使点错也不会失败',base:5,add:1,coin:300,coinAdd:300},
     }
 
     public getLevel(id):number{
@@ -32,14 +32,14 @@ class PropManager extends egret.EventDispatcher {
         return oo.coin + oo.coinAdd*level;
     }
 
-    public getPropValue(id,level?:number){
+    public getPropValue(id,level?:number):number{
         level = (level || this.getLevel(id))-1;
         var oo = this.baseData[id];
         return oo.base + oo.add*level;
     }
 
     public getDes(id,level?){
-        return this.baseData[id].des.replace('$value$',this.getPropValue(id,level) + '')
+        return this.baseData[id].des.replace('$value$',MyTool.toFixed(this.getPropValue(id,level),1))
     }
 
     public upProp(id){

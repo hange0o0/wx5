@@ -38,16 +38,20 @@ class CountDownItem extends game.BaseItem{
 
     public dataChanged(){
 
+         this.maxStep = this.step = this.data.max;
+        MyTool.getSector(48,-90,-this.step/this.maxStep*360,0xFFFF00,1,this.shape)
+        this.mc.source =  'prop_'+this.data.id+'_png'
     }
 
     private onE(){
         if(this.step <= 0)
         {
             PKUI.getInstance().removeCountDown(this)
-            return;
+            return true;
         }
         this.step --;
-        MyTool.getSector(96,-90,-this.step/this.maxStep*360,0xFFFFFF,1,this.shape)
+        MyTool.getSector(48,-90,-this.step/this.maxStep*360,0xFFFF00,1,this.shape)
+        return false;
     }
 
 

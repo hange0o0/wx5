@@ -22,6 +22,7 @@ class PKResultUI extends game.BaseUI_wx5{
 
 
 
+    private addCoin
     private shareText = ''
 
     public constructor() {
@@ -46,11 +47,17 @@ class PKResultUI extends game.BaseUI_wx5{
         //})
 
         this.addBtnEvent(this.shareBtn1,()=>{
-            ShareTool.share('自从玩了这个 游戏广告再也无法干扰到我了',Config.localResRoot + "share1.jpg",{},null,true)
+            ShareTool.share(this.shareText,Config.localResRoot + "share"+Math.ceil(Math.random()*2)+".jpg",{},null,true)
+            //ShareTool.share('自从玩了这个 游戏广告再也无法干扰到我了',Config.localResRoot + "share1.jpg",{},null,true)
         })
 
         this.addBtnEvent(this.shareBtn2,()=>{
-            ShareTool.share(this.shareText,Config.localResRoot + "share2.jpg",{},null,true)
+            ShareTool.openGDTV(()=>{
+                UM_wx5.addCoin(this.addCoin);
+                MyWindow.ShowTips('获得金币：'+MyTool.createHtml('+' + NumberUtil_wx5.addNumSeparator(this.addCoin,2),0xFFFF00),1000)
+                this.shareBtn2.visible = false;
+                SoundManager.getInstance().playEffect('coin')
+            })
         })
 
         //MyTool.removeMC(this.adGroup)
@@ -128,6 +135,10 @@ class PKResultUI extends game.BaseUI_wx5{
         this.cdText.text = DateUtil_wx5.getStringBySecond(cd1).substr(-5) + '′' + ('00' + cd2).substr(-2) + "″"
         this.scoreText.text = PM.score + ''
 
+        var addCoin = this.addCoin = Math.floor(PM.score/20);
+        UM_wx5.addCoin(addCoin);
+        this.coinText.text = '+' + addCoin
+
 
 
         this.record1.visible = cd > UM_wx5.time
@@ -147,6 +158,7 @@ class PKResultUI extends game.BaseUI_wx5{
 
         this.setHtml(this.honorText,'获得了【'+this.createHtml(this.getHonor(cd1),0xFF0000)+'】称号')
         this.shareText = '我在广告包围中坚持了'+cd1+'秒，获得了【'+this.getHonor(cd1)+'】称号'
+        this.shareBtn2.visible = true;
 
         this.list.dataProvider = new eui.ArrayCollection(PlayManager.getInstance().gameADList)
         UM_wx5.needUpUser = true;

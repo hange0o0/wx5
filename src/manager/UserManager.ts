@@ -90,6 +90,8 @@ class UserManager_wx5 {
         this.lastTime = data.lastTime || 0;
         this.coinTimes = data.coinTimes || 0;
         this.propLevel = data.propLevel || {};
+        if(!this.lastTime && !this.coin)
+            this.coin = 200;
 
 
         this.localSave();
@@ -198,7 +200,7 @@ class UserManager_wx5 {
              saveTime:0,
              time:0,
              score:0,
-             coin:100,
+             coin:200,
          };
     }
 
