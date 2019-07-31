@@ -14,6 +14,7 @@ class GameUI extends game.BaseUI_wx5 {
     private con: eui.Group;
     private ad1: eui.Image;
     private ad2: eui.Image;
+    private propGroup: eui.Group;
     private prop1: eui.Group;
     private red1: eui.Image;
     private lvText1: eui.Label;
@@ -33,6 +34,8 @@ class GameUI extends game.BaseUI_wx5 {
     private soundBtn: eui.Image;
     private rankBtn: eui.Image;
     private feedBackBtn: eui.Image;
+    private loadingText: eui.Label;
+
 
 
 
@@ -155,9 +158,18 @@ class GameUI extends game.BaseUI_wx5 {
         this.addPanelOpenEvent(GameEvent.client.timerE,this.onE)
         this.addPanelOpenEvent(GameEvent.client.PROP_CHANGE,this.renewProp)
         this.addPanelOpenEvent(GameEvent.client.COIN_CHANGE,this.renewCoin)
+        this.addPanelOpenEvent(GameEvent.client.LOAD_FINISH,this.onLoadFinish)
+    }
+
+    private onLoadFinish(){
+        this.loadingText.visible = false;
+        this.propGroup.visible = true;
+        this.renewProp();
+        this.renewCoin();
     }
 
     private renewProp(){
+
         var PM = PropManager.getInstance();
         for(var i=1;i<=5;i++)
         {
@@ -167,6 +179,18 @@ class GameUI extends game.BaseUI_wx5 {
     }
 
     private renewCoin(){
+        if(!UM_wx5.isLogin)
+        {
+            MyWindow.Confirm('未能拉取到玩家数据，请重新登陆',(b)=>{
+                if(b==1)
+                {
+                    var wx = window['wx'];
+                    wx.exitMiniProgram();
+                }
+            },['继续游戏', '重新登陆']);
+            return;
+        }
+
        this.coinText.text = NumberUtil_wx5.addNumSeparator(UM_wx5.coin)
         this.renewProp();
     }
@@ -193,7 +217,19 @@ class GameUI extends game.BaseUI_wx5 {
 
     public renew(){
          this.bg.source = PlayManager.getInstance().getBG();
+        if(UM_wx5.isLogin)
+        {
+            this.loadingText.visible = false;
+            this.propGroup.visible = true;
             this.renewCoin();
+        }
+        else
+        {
+            this.loadingText.visible = true;
+            this.propGroup.visible = false;
+            this.coinText.text = '??????'
+        }
+
 
         var adArr = PlayManager.getInstance().getListByNum(10);
 

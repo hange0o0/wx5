@@ -23,7 +23,10 @@ class PropManager extends egret.EventDispatcher {
     }
 
     public getLevel(id):number{
-        return UM_wx5.propLevel[id] || 1;
+        if(UM_wx5.isLogin)
+            return UM_wx5.propLevel[id] || 1;
+        else
+            return 1;
     }
 
     public getUpCost(id){
@@ -39,7 +42,7 @@ class PropManager extends egret.EventDispatcher {
     }
 
     public getDes(id,level?){
-        return this.baseData[id].des.replace('$value$',MyTool.toFixed(this.getPropValue(id,level),1))
+        return this.baseData[id].des.replace('$value$',' ' + MyTool.createHtml(MyTool.toFixed(this.getPropValue(id,level),1),0x00ff00) + ' ')
     }
 
     public upProp(id){

@@ -299,6 +299,11 @@ class PlayManager extends egret.EventDispatcher {
         this.isGameOver = true
         this.speedRate = 1-PropManager.getInstance().getPropValue(1)/100;
     }
+
+    public resetSpeedRate(){
+        this.speedRate = 1-PropManager.getInstance().getPropValue(1)/100;
+    }
+
     public startGame(){
         this.startTime = egret.getTimer();
         this.lastClick  = this.startTime
@@ -323,7 +328,7 @@ class PlayManager extends egret.EventDispatcher {
     public onDie(data?){
         this.dieTime = egret.getTimer();
 
-        if(this.dieTimes < Math.ceil((egret.getTimer() - this.startTime)/30000))
+        if(this.dieTimes < Math.ceil((egret.getTimer() - this.startTime)/60000))
         {
             this.dieTimes ++
             RebornUI.getInstance().show()

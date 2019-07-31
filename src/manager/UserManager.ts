@@ -15,7 +15,12 @@ class UserManager_wx5 {
 
     private _needUpUser = false;
     public get needUpUser(){return this._needUpUser}
-    public set needUpUser(v){this._needUpUser = v;v && egret.callLater(this.localSave,this)}
+    public set needUpUser(v){
+        if(!UM_wx5.isLogin)
+            return;
+        this._needUpUser = v;
+        v && egret.callLater(this.localSave,this)
+    }
     //
     //
     //public nick
@@ -23,6 +28,8 @@ class UserManager_wx5 {
     //public gender
     //
     //
+    public isLogin = false
+
     public isTest = false;
     public testVersion = 190727//与服务器相同则为测试版本
     public shareFail;
@@ -69,6 +76,8 @@ class UserManager_wx5 {
     //
     //public haveGetUser = false
     public fill(data:any):void{
+        this.isLogin = true
+
         var localData = SharedObjectManager_wx5.getInstance().getMyValue('localSave')
         if(localData && localData.saveTime && localData.saveTime - data.saveTime > 10) //本地的数据更新
         {
@@ -95,6 +104,9 @@ class UserManager_wx5 {
 
 
         this.localSave();
+
+        PlayManager.getInstance().resetSpeedRate();
+        EM_wx5.dispatchEventWith(GameEvent.client.LOAD_FINISH)
     }
 
     public testPassDay(){
@@ -233,6 +245,8 @@ class UserManager_wx5 {
     }
 
     private localSave(){
+        if(!UM_wx5.isLogin)
+            return;
         SharedObjectManager_wx5.getInstance().setMyValue('localSave',this.getUpdataData())
     }
 

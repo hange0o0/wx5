@@ -16,7 +16,7 @@
 		<e:Label text="抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。\n适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。" size="20" lineSpacing="6" textAlign="center" horizontalCenter="0" bottom="20" textColor="0xd8d8d8"/>
 	<e:Image id="ad1" width="90" height="90" x="25" bottom="245"/>
 	<e:Image id="ad2" width="90" height="90" bottom="245" right="25"/>
-	<e:Group horizontalCenter="0" bottom="360">
+	<e:Group id="propGroup" horizontalCenter="0" bottom="360">
 		<e:Group x="10" y="10" id="prop1" width="100" height="100">
 			<e:Image source="prop_1_png" width="90" height="90" verticalCenter="0" horizontalCenter="0"/>
 			<e:Image source="red_mc_png" right="0" top="0" id="red1"/>
@@ -59,4 +59,5 @@
 			<e:HorizontalLayout gap="15" verticalAlign="middle"/>
 		</e:layout>
 	</e:Group>
+	<e:Label id="loadingText" text="正在请求玩家数据..." horizontalCenter="0" size="24" bottom="400"/>
 			</e:Skin>

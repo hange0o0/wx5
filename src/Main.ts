@@ -211,9 +211,9 @@ class Main extends eui.UILayer {
         PlayManager.getInstance().getAD()
         window['wx'] && PlayManager.getInstance().initExtra(window['wx'].getLaunchOptionsSync())
         UM_wx5.getUserInfo(()=>{
-            GameUI.getInstance().show();
-        })
 
+        })
+        GameUI.getInstance().show();
 
     }
 }

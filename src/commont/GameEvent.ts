@@ -4,7 +4,7 @@ class GameEvent {
         COIN_CHANGE:'COIN_CHANGE',
 
         HP_CHANGE:'HP_CHANGE',
-        GUN_CHANGE:'GUN_CHANGE',
+        LOAD_FINISH:'LOAD_FINISH',
         GUN_UNLOCK:'GUN_UNLOCK',
         MAKE_CHANGE:'MAKE_CHANGE',
 
