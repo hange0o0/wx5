@@ -30,8 +30,8 @@ class UserManager_wx5 {
     //
     public isLogin = false
 
-    public isTest = false;
-    public testVersion = 190727//与服务器相同则为测试版本
+    public isTest = true;
+    public testVersion = 190916//与服务器相同则为测试版本
     public shareFail;
     //
     public gameid: string = 'null';

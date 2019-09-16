@@ -12,13 +12,15 @@ class PKUI extends game.BaseUI_wx5 {
     private item1: PKItem2;
     private item2: PKItem2;
     private barGroup: eui.Group;
-    private propGroup: eui.Group;
     private barMC: eui.Image;
+    private propGroup: eui.Group;
     private cdText: eui.Label;
     private scoreText: eui.Label;
     private readyBG: eui.Image;
     private numText: eui.Label;
+    private adRedMC: eui.Image;
     private timeOverMC: eui.Image;
+
 
 
 
@@ -32,6 +34,8 @@ class PKUI extends game.BaseUI_wx5 {
     public propArr = []
     private barWidth = 632;
 
+    public redTW
+
 
     private wordBase = {
         0:{w:'Miss',color:0xFF0000},
@@ -43,6 +47,7 @@ class PKUI extends game.BaseUI_wx5 {
     public constructor() {
         super();
         this.skinName = "PKUISkin";
+        this.isShowAD = true
     }
 
     public childrenCreated() {
@@ -53,7 +58,9 @@ class PKUI extends game.BaseUI_wx5 {
         this.item1.startStep = 1;
         this.item2.startStep = 2;
 
-
+        this.adRedMC.alpha = 0.5;
+        this.redTW = egret.Tween.get(this.adRedMC,{loop:true}).to({alpha:0.2},500).to({alpha:0.5},500)
+        this.redTW.setPaused(true)
     }
 
     private onClick2(){
@@ -271,6 +278,8 @@ class PKUI extends game.BaseUI_wx5 {
 
     public onShow(){
         this.timeOverMC.visible = false;
+        this.adRedMC.visible = false;
+        this.adRedMC.height = Config.adHeight;
         this.renew();
         this.addPanelOpenEvent(GameEvent.client.timerE,this.onE)
     }
@@ -345,6 +354,28 @@ class PKUI extends game.BaseUI_wx5 {
             {
                 PM.gameStep = 1;
                 SoundManager.getInstance().playEffect('laugh1')
+            }
+
+            if(cd > PM.adMoveTime1)//显红
+            {
+                if(PM.adMoveNum >= 5)
+                    PM.adMoveTime2 = PM.adMoveTime1 + (Math.random()*1)*1000 + 300
+                else
+                    PM.adMoveTime2 = PM.adMoveTime1 + (1+Math.random()*2)*1000
+                PM.adMoveTime1 += (10 + 3*Math.random() - PM.adMoveNum)*1000
+                PM.adMoveNum ++;
+                if(PM.adMoveNum >8)
+                    PM.adMoveNum = 8
+                this.adRedMC.visible = true;
+                this.redTW.setPaused(false)
+                this.adRedMC.y = 100 + (GameManager_wx5.uiHeight-Config.adHeight - 100)*Math.random()
+            }
+
+            if(cd > PM.adMoveTime2)//广告动
+            {
+                this.adRedMC.visible = false;
+                this.redTW.setPaused(true)
+                GameManager_wx5.getInstance().showBanner(GameManager_wx5.uiHeight - this.adRedMC.y - Config.adHeight)
             }
 
 

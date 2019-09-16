@@ -245,11 +245,6 @@
 			"url":"game_assets/share2.jpg"
 		},
 		{
-			"name":"share1_jpg",
-			"type":"image",
-			"url":"game_assets/share1.jpg"
-		},
-		{
 			"name":"btn_mp3",
 			"type":"sound",
 			"url":"sound/btn.mp3"

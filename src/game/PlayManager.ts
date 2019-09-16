@@ -36,6 +36,9 @@ class PlayManager extends egret.EventDispatcher {
     public isGameOver = true
     public lastAddAD = 0
     public lastAddProp = 0
+    public adMoveTime1 = 0
+    public adMoveTime2 = 0
+    public adMoveNum = 0
 
     public cloudPath = 'cloud://server1-8635ef.7365-server1-8635ef/'
     public myAppID = 'wxe2875716299fa092'
@@ -295,6 +298,11 @@ class PlayManager extends egret.EventDispatcher {
         this.gameStep = 0
         this.dieTime = 0
         this.dieTimes = 0
+
+        this.adMoveTime1 = 50*1000
+        this.adMoveTime2 = 53*1000 + Math.random()*2000
+        this.adMoveNum = 0;
+
         this.startTime = egret.getTimer();
         this.isGameOver = true
         this.speedRate = 1-PropManager.getInstance().getPropValue(1)/100;
@@ -331,13 +339,15 @@ class PlayManager extends egret.EventDispatcher {
         if(this.dieTimes < Math.ceil((egret.getTimer() - this.startTime)/60000))
         {
             this.dieTimes ++
-            RebornUI.getInstance().show()
+            if(UM_wx5.isTest && data)
+                ADShowUI.getInstance().show(data)
+            else
+                RebornUI.getInstance().show()
         }
         else
         {
             this.onGameFinish();
         }
-        //ADShowUI.getInstance().show(data)
     }
 
     public addProp(propID){

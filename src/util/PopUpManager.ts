@@ -5,7 +5,7 @@
  */
 class PopUpManager {
 	private wx5_functionX_28210(){console.log(2792)}
-    public static shape:eui.Rect;
+    public static shape:eui.Image;
 	public constructor() {
 	}
 
@@ -37,10 +37,10 @@ class PopUpManager {
         var hh = GameManager_wx5.container.height;
         if(!this.shape)
         {
-            this.shape = new eui.Rect();
+            this.shape = new eui.Image('black_bg_alpha_png');
             this.shape.width = 640;
-            this.shape.fillColor = 0;
-            this.shape.fillAlpha = 0.8;
+            //this.shape.fillColor = 0;
+            //this.shape.fillAlpha = 0.8;
 
             this.shape.top = 0
             this.shape.bottom = 0

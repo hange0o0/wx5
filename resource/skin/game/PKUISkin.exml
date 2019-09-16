@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="PKUISkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
-	<e:Image id="bg" left="0" fillMode="repeat" right="0" top="0" bottom="0"/>
+	<e:Image id="bg" left="0" fillMode="repeat" right="0" top="0" bottom="0" locked="true"/>
 	<e:Group id="con" left="0" right="0" top="0" bottom="0"/>
 	<ns1:PKItem2 id="item1" x="5" y="145" skinName="PKItem2Skin"/>
 	<ns1:PKItem2 id="item2" x="5" y="145" skinName="PKItem2Skin"/>
@@ -17,5 +17,6 @@
 	<e:Label id="scoreText" text="Label" y="60" size="24" x="20"/>
 	<e:Image id="readyBG" source="black_bg_alpha_png" left="0" right="0" top="0" bottom="0" locked="true"/>
     <e:Label id="numText" text="3" size="180" bold="true" textColor="0xffd76d" horizontalCenter="0" verticalCenter="-100" stroke="5" locked="true"/>
+	<e:Image id="adRedMC" source="red_bg_png" y="876" width="640" height="200" x="0" touchEnabled="false"/>
 	<e:Image id="timeOverMC" source="timeover_png" horizontalCenter="0" verticalCenter="-200"/>
 </e:Skin>

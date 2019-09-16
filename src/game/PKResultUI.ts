@@ -24,6 +24,7 @@ class PKResultUI extends game.BaseUI_wx5{
 
     private addCoin
     private shareText = ''
+    private insterCount = 0;
 
     public constructor() {
         super();
@@ -47,7 +48,7 @@ class PKResultUI extends game.BaseUI_wx5{
         //})
 
         this.addBtnEvent(this.shareBtn1,()=>{
-            ShareTool.share(this.shareText,Config.localResRoot + "share"+Math.ceil(Math.random()*2)+".jpg",{},null,true)
+            ShareTool.share(this.shareText,Config.localResRoot + "share2.jpg",{},null,true)
             //ShareTool.share('自从玩了这个 游戏广告再也无法干扰到我了',Config.localResRoot + "share1.jpg",{},null,true)
         })
 
@@ -95,6 +96,15 @@ class PKResultUI extends game.BaseUI_wx5{
                     MyWindow.Alert('离目标还差'+(extraData.value - cd)+'秒，请继续加油').showCenter()
                 else
                     MyWindow.Alert('离目标还差'+(extraData.value - PM.score)+'分，请继续加油').showCenter()
+            }
+        }
+        else
+        {
+            this.insterCount ++;
+            if(this.insterCount >= 3)
+            {
+                GameManager_wx5.getInstance().showInsert();
+                this.insterCount = 0;
             }
         }
 

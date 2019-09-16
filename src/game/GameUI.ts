@@ -35,6 +35,7 @@ class GameUI extends game.BaseUI_wx5 {
     private rankBtn: eui.Image;
     private feedBackBtn: eui.Image;
     private loadingText: eui.Label;
+    private adText: eui.Label;
 
 
 
@@ -47,6 +48,8 @@ class GameUI extends game.BaseUI_wx5 {
     public constructor() {
         super();
         this.skinName = "GameUISkin";
+        this.isShowAD  = true
+        this.adBottom
     }
 
     public childrenCreated() {
@@ -257,6 +260,10 @@ class GameUI extends game.BaseUI_wx5 {
         {
             this.ad2.visible = false;
         }
+
+        this.adText.visible = Config.adHeight > 0
+        this.adText.bottom = Config.adHeight + 15
+
     }
 
 }

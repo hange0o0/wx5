@@ -20,6 +20,7 @@ class GameManager_wx5 {
     public isActive = true;
     public onShowFun
     public bannerAD
+    public insertAD
 	private wx5_functionX_28091(){console.log(153)}
     public shareFailTime = 0;
 	public constructor() {
@@ -79,7 +80,7 @@ class GameManager_wx5 {
     public init(){
         GameManager_wx5.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE,this.onTouchMove_2696,this);
         GameManager_wx5.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouchBegin_599,this);
-        //this.createAD_6521();
+        this.createAD_6521();
     }
 
 	private wx5_functionX_28097(){console.log(4913)}
@@ -123,7 +124,7 @@ class GameManager_wx5 {
     let width = scalex * btnw;
 
     let bannerAd = this.bannerAD = wx.createBannerAd({
-        adUnitId: 'adunit-d406f443acb5f7d2',
+        adUnitId: Config.wx_ad,
         style: {
             left: left,
             top: top,
@@ -150,17 +151,33 @@ class GameManager_wx5 {
         //console.log(res,scalex,scaley,GameManager.stage.stageHeight)
     })
     bannerAd.show()
+
+        if (wx.createInterstitialAd && Config.wx_insert){
+            this.insertAD = wx.createInterstitialAd({
+                adUnitId: Config.wx_insert
+            })
+        }
 }
 	private wx5_functionX_28099(){console.log(2327)}
 
+    //显示插屏广告
+    public showInsert(){
+        if(!this.insertAD)
+            return;
+
+        this.insertAD.show().catch((err) => {
+            console.error(err)
+        })
+    }
+
     public showBanner(bottom){
+
         if(this.bannerAD)
         {
             this.bannerAD.show()
             var scaley = screen.availHeight/GameManager_wx5.stage.stageHeight;
-	wx5_function(1701);
             var  paddingTop = GameManager_wx5.paddingTop();
-            this.bannerAD.style.top = scaley * (GameManager_wx5.uiHeight + paddingTop - bottom)// - GameManager.paddingBottom());
+            this.bannerAD.style.top = scaley * (GameManager_wx5.uiHeight + paddingTop - bottom - Config.adHeight)// - GameManager.paddingBottom());
         }
     }
 
