@@ -230,6 +230,7 @@ class PKUI extends game.BaseUI_wx5 {
     }
 
     public show(){
+        this.isShowAD = !UM_wx5.isTest
         super.show()
     }
 
@@ -356,27 +357,31 @@ class PKUI extends game.BaseUI_wx5 {
                 SoundManager.getInstance().playEffect('laugh1')
             }
 
-            if(cd > PM.adMoveTime1)//显红
+            if(!UM_wx5.isTest)
             {
-                if(PM.adMoveNum >= 5)
-                    PM.adMoveTime2 = PM.adMoveTime1 + (Math.random()*1)*1000 + 300
-                else
-                    PM.adMoveTime2 = PM.adMoveTime1 + (1+Math.random()*2)*1000
-                PM.adMoveTime1 += (10 + 3*Math.random() - PM.adMoveNum)*1000
-                PM.adMoveNum ++;
-                if(PM.adMoveNum >8)
-                    PM.adMoveNum = 8
-                this.adRedMC.visible = true;
-                this.redTW.setPaused(false)
-                this.adRedMC.y = 100 + (GameManager_wx5.uiHeight-Config.adHeight - 100)*Math.random()
+                if(cd > PM.adMoveTime1)//显红
+                {
+                    if(PM.adMoveNum >= 5)
+                        PM.adMoveTime2 = PM.adMoveTime1 + (Math.random()*1)*1000 + 300
+                    else
+                        PM.adMoveTime2 = PM.adMoveTime1 + (1+Math.random()*2)*1000
+                    PM.adMoveTime1 += (10 + 3*Math.random() - PM.adMoveNum)*1000
+                    PM.adMoveNum ++;
+                    if(PM.adMoveNum >8)
+                        PM.adMoveNum = 8
+                    this.adRedMC.visible = true;
+                    this.redTW.setPaused(false)
+                    this.adRedMC.y = 100 + (GameManager_wx5.uiHeight-Config.adHeight - 100)*Math.random()
+                }
+
+                if(cd > PM.adMoveTime2)//广告动
+                {
+                    this.adRedMC.visible = false;
+                    this.redTW.setPaused(true)
+                    GameManager_wx5.getInstance().showBanner(GameManager_wx5.uiHeight - this.adRedMC.y - Config.adHeight)
+                }
             }
 
-            if(cd > PM.adMoveTime2)//广告动
-            {
-                this.adRedMC.visible = false;
-                this.redTW.setPaused(true)
-                GameManager_wx5.getInstance().showBanner(GameManager_wx5.uiHeight - this.adRedMC.y - Config.adHeight)
-            }
 
 
 

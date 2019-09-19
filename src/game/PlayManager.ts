@@ -273,18 +273,18 @@ class PlayManager extends egret.EventDispatcher {
     }
 
     private resetADList(){
-        if(UM_wx5.isTest)
-        {
+        //if(UM_wx5.isTest)
+        //{
             this.gameADList = this.getListByNum(12);
             ArrayUtil_wx5.random(this.gameADList);
             if(this.gameADList.length > 10)
                 this.gameADList.length = 10;
-        }
-        else
-        {
-            ArrayUtil_wx5.random(this.heroList)
-            this.gameADList = this.heroList.slice(0,10)
-        }
+        //}
+        //else
+        //{
+        //    ArrayUtil_wx5.random(this.heroList)
+        //    this.gameADList = this.heroList.slice(0,10)
+        //}
     }
 
     public initGame(){
@@ -339,9 +339,9 @@ class PlayManager extends egret.EventDispatcher {
         if(this.dieTimes < Math.ceil((egret.getTimer() - this.startTime)/60000))
         {
             this.dieTimes ++
-            if(UM_wx5.isTest && data)
-                ADShowUI.getInstance().show(data)
-            else
+            //if(UM_wx5.isTest && data)
+            //    ADShowUI.getInstance().show(data)
+            //else
                 RebornUI.getInstance().show()
         }
         else

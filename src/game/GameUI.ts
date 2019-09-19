@@ -55,7 +55,7 @@ class GameUI extends game.BaseUI_wx5 {
     public childrenCreated() {
         super.childrenCreated();
         this.addBtnEvent(this.startBtn,()=>{
-             if(UM_wx5.isTest && PlayManager.getInstance().adList.length == 0)
+             if(PlayManager.getInstance().adList.length == 0)//UM_wx5.isTest &&
              {
                  MyWindow.ShowTips('正在组装敌人，请稍后')
                  return;
@@ -261,7 +261,7 @@ class GameUI extends game.BaseUI_wx5 {
             this.ad2.visible = false;
         }
 
-        this.adText.visible = Config.adHeight > 0
+        this.adText.visible = Config.adHeight > 0 && !UM_wx5.isTest
         this.adText.bottom = Config.adHeight + 15
 
     }
