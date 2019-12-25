@@ -33,6 +33,7 @@
 		"resource/skin/game/PKResultUISkin.exml",
 		"resource/skin/game/PKUISkin.exml",
 		"resource/skin/game/PropInfoUISkin.exml",
+		"resource/skin/game/rank/RankItemSkin.exml",
 		"resource/skin/game/rank/RankUISkin.exml",
 		"resource/skin/game/RebornUISkin.exml"
 	],

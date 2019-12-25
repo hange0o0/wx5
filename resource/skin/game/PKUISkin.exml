@@ -15,7 +15,7 @@
 	</e:Group>
 	<e:Label id="cdText" text="Label" x="20" y="30" size="24"/>
 	<e:Label id="scoreText" text="Label" y="60" size="24" x="20"/>
-	<e:Image id="readyBG" source="black_bg_alpha_png" left="0" right="0" top="0" bottom="0" locked="true"/>
+	<e:Image id="readyBG" source="black_bg_alpha_png" left="0" right="0" top="0" bottom="0"/>
     <e:Label id="numText" text="3" size="180" bold="true" textColor="0xffd76d" horizontalCenter="0" verticalCenter="-100" stroke="5" locked="true"/>
 	<e:Image id="adRedMC" source="red_bg_png" y="876" width="640" height="200" x="0" touchEnabled="false"/>
 	<e:Image id="timeOverMC" source="timeover_png" horizontalCenter="0" verticalCenter="-200"/>

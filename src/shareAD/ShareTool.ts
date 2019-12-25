@@ -125,9 +125,14 @@ class ShareTool {
             return
         }
 
-        //监时用进入好友代替
-        //ChangeJumpUI.getInstance().show('没有可观看的广告\n体验以上小程序'+MyTool.createHtml(30,0xFFFF00)+'秒也可获得',success,closeFun)
-        //return;
+        if(!window["wx"])
+        {
+            //监时用进入好友代替
+            ChangeJumpUI.getInstance().show('没有可观看的广告\n体验以上小程序'+MyTool.createHtml(30,0xFFFF00)+'秒也可获得',success,closeFun)
+            return;
+        }
+
+
 
 
         this.adSuccFun = success;

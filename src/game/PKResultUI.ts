@@ -26,6 +26,8 @@ class PKResultUI extends game.BaseUI_wx5{
     private shareText = ''
     private insterCount = 0;
 
+    public zjVideo = false
+
     public constructor() {
         super();
         this.skinName = "PKResultUISkin";
@@ -48,6 +50,14 @@ class PKResultUI extends game.BaseUI_wx5{
         //})
 
         this.addBtnEvent(this.shareBtn1,()=>{
+            if(this.zjVideo)
+            {
+                ZijieScreenBtn.e.awardPublish(this.addCoin,()=>{
+                    this.shareBtn1.visible = false;
+                    SoundManager.getInstance().playEffect('coin')
+                })
+                return;
+            }
             ShareTool.share(this.shareText,Config.localResRoot + "share2.jpg",{},null,true)
             //ShareTool.share('自从玩了这个 游戏广告再也无法干扰到我了',Config.localResRoot + "share1.jpg",{},null,true)
         })
@@ -70,6 +80,8 @@ class PKResultUI extends game.BaseUI_wx5{
     }
 
     public onShow(){
+        this.zjVideo = false;
+        ADIconManager.getInstance().showIcon('result')
         this.renew();
         var PM = PlayManager.getInstance();
         var extraData = PM.extraData;
@@ -172,9 +184,19 @@ class PKResultUI extends game.BaseUI_wx5{
 
         this.list.dataProvider = new eui.ArrayCollection(PlayManager.getInstance().gameADList)
         UM_wx5.needUpUser = true;
+
+        this.addCoin*=3;
+        if(ZijieScreenBtn.e)
+        {
+            this.zjVideo = true;
+            this.shareBtn1.label = '多领 3 倍金币'
+            this.shareBtn1.icon = 'zj_video_icon_png'
+            ZijieScreenBtn.e && ZijieScreenBtn.e.stop();
+        }
     }
 
     public hide(){
         super.hide();
+        ADIconManager.getInstance().hideAll()
     }
 }

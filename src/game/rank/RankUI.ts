@@ -7,12 +7,21 @@ class RankUI extends game.BaseWindow_wx5{
     }
 
     private tab: eui.TabBar;
+    private desText: eui.Label;
+    private scroller: eui.Scroller;
+    private list: eui.List;
+    private openBtn: eui.Image;
+
 
 
 
 
     private bitmap: egret.Bitmap;
     private isdisplay = false;
+
+    private rankData = {};
+
+    private infoBtn:UserInfoBtn
 
 
     public constructor() {
@@ -26,10 +35,40 @@ class RankUI extends game.BaseWindow_wx5{
 
 
 
+
         this.tab.addEventListener(egret.Event.CHANGE,this.onTab,this)
         this.tab.selectedIndex = 0;
+
+        if(Config.isZJ)//字节不显示好友
+        {
+            this.setTitle('最强排行')
+
+            this.infoBtn = new UserInfoBtn(this.openBtn, (res)=>{
+                this.renewInfo(res);
+            }, this, Config.localResRoot + "wx_btn_info.png");
+            this.infoBtn.force = true
+
+            this.scroller.viewport = this.list;
+            this.list.itemRenderer = RankItem;
+        }
+        else
+        {
+            this.scroller.visible = false;
+        }
     }
 
+
+    private renewInfo(res?){
+        var wx = window['wx'];
+        if(!wx)
+            return;
+        if(res && res.userInfo)
+        {
+            this.infoBtn.visible = false;
+            UM_wx5.renewInfo(res.userInfo)
+            this.renew();
+        }
+    }
 
 
     private onTab(){
@@ -38,12 +77,26 @@ class RankUI extends game.BaseWindow_wx5{
 
 
     public onShow(){
-
         this.renew();
     }
 
 
     public renew(){
+        if(Config.isZJ)//字节不显示好友
+        {
+            if(this.tab.selectedIndex == 0)
+            {
+                var key = 'time'
+                var value = UM_wx5.time
+            }
+            else if(this.tab.selectedIndex == 1)
+            {
+                var key = 'score'
+                var value = UM_wx5.score
+            }
+            this.worldRank(key,value);
+            return;
+        }
         if(!window['wx'])
             return;
         this.remove();
@@ -110,5 +163,129 @@ class RankUI extends game.BaseWindow_wx5{
     public hide(){
         this.remove();
         super.hide();
+    }
+
+
+    private worldRank(type,myValue){
+        var wx = window['wx'];
+        if(!wx)
+        {
+            return;
+        }
+
+        if(this.rankData[type])
+        {
+            this.showRank(type);
+            return;
+        }
+
+        var oo:any = {
+            type:type,
+            openid:UM_wx5.gameid,
+            nick:UM_wx5.nick,
+            head:UM_wx5.head,
+            value:myValue,
+        }
+
+        console.log(oo)
+
+        if(Config.isZJ || Config.isQQ)
+        {
+            oo.openid2 = UM_wx5.gameid2;
+            Net.getInstance().getRankData(oo,(data)=>{
+                this.rankData[oo.type] = {
+                    list:data.result,
+                    time:TM_wx5.now()
+                }
+                this.showRank(type);
+            })
+            return;
+        }
+
+
+        MsgingUI.getInstance().show()
+        wx.cloud.callFunction({      //取玩家openID,
+            name: 'getRank',
+            data: oo,
+            complete: (res) => {
+                console.log(res)
+                if(res.result)
+                {
+                    this.rankData[oo.type] = {
+                        list:res.result,
+                        time:TM_wx5.now()
+                    }
+                    this.showRank(type);
+                }
+                MsgingUI.getInstance().hide()
+            },
+            fail:()=>{
+                MyWindow.Alert('排行榜拉取失败')
+                MsgingUI.getInstance().hide()
+            }
+        })
+    }
+
+    public showRank(type){
+        if(!this.rankData[type])
+            return;
+        this.scroller.visible = true;
+        var arr = this.rankData[type].list;
+        var b = false;
+
+        if(type == 'time')
+            var myScore = UM_wx5.time
+        else
+            var myScore = UM_wx5.score
+
+        for(var i=0;i<arr.length;i++) //更新自己成绩
+        {
+            arr[i].type = type;
+            if(arr[i].openid == UM_wx5.gameid && UM_wx5.nick)
+            {
+                arr[i].value = myScore;
+                arr[i].nick = UM_wx5.nick;
+                arr[i].head = UM_wx5.head;
+                b = true;
+            }
+        }
+        if(!b && UM_wx5.nick && arr.length<50 && myScore > 1)
+        {
+            arr.push({
+                nick:UM_wx5.nick,
+                value:myScore,
+                type:type,
+                head:UM_wx5.head,
+                openid:UM_wx5.gameid
+            })
+        }
+        for(var i=0;i<arr.length;i++)
+        {
+            arr[i].value = Math.floor(arr[i].value)
+        }
+
+        ArrayUtil_wx5.sortByField(arr,['value'],[1])
+        var myRank = 0
+        for(var i=0;i<arr.length;i++)
+        {
+            arr[i].index = i+1;
+            if(arr[i].openid == UM_wx5.gameid)
+                myRank = i+1;
+        }
+        this.list.dataProvider = new eui.ArrayCollection(arr)
+        this.scroller.stopAnimation();
+        this.scroller.viewport.scrollV = 0;
+        if(UM_wx5.nick)
+        {
+            if(myRank)
+                this.desText.text = '你当前排名为：' + myRank;
+            else
+                this.desText.text = '你还没进入前50名';
+        }
+        else
+        {
+            this.desText.text = '点击授权后可在排行榜中显示你的名次';
+            this.infoBtn.visible = true;
+        }
     }
 }

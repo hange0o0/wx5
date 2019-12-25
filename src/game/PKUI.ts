@@ -47,7 +47,7 @@ class PKUI extends game.BaseUI_wx5 {
     public constructor() {
         super();
         this.skinName = "PKUISkin";
-        this.isShowAD = true
+        //this.isShowAD = true
     }
 
     public childrenCreated() {
@@ -61,6 +61,7 @@ class PKUI extends game.BaseUI_wx5 {
         this.adRedMC.alpha = 0.5;
         this.redTW = egret.Tween.get(this.adRedMC,{loop:true}).to({alpha:0.2},500).to({alpha:0.5},500)
         this.redTW.setPaused(true)
+        MyTool.removeMC(this.adRedMC)
     }
 
     private onClick2(){
@@ -230,7 +231,7 @@ class PKUI extends game.BaseUI_wx5 {
     }
 
     public show(){
-        this.isShowAD = !UM_wx5.isTest
+        //this.isShowAD = !UM_wx5.isTest
         super.show()
     }
 
@@ -283,6 +284,12 @@ class PKUI extends game.BaseUI_wx5 {
         this.adRedMC.height = Config.adHeight;
         this.renew();
         this.addPanelOpenEvent(GameEvent.client.timerE,this.onE)
+
+        if(ZijieScreenBtn.e)
+        {
+            ZijieScreenBtn.e.init();
+            ZijieScreenBtn.e.start();
+        }
     }
 
     private onE(){
@@ -351,7 +358,7 @@ class PKUI extends game.BaseUI_wx5 {
             var cd2 = Math.floor(cd/1000*100)%100
             this.cdText.text = '计时：' + DateUtil_wx5.getStringBySecond(cd1).substr(-5) + '′' + ('00' + cd2).substr(-2) + "″"
 
-            if(PM.gameStep == 0 && cd > 30*1000)
+            if(PM.gameStep == 0 && cd > 20*1000)
             {
                 PM.gameStep = 1;
                 SoundManager.getInstance().playEffect('laugh1')
@@ -398,7 +405,7 @@ class PKUI extends game.BaseUI_wx5 {
                  this.barMC.width = cd/PM.maxCD*this.barWidth
             }
 
-            if(egret.getTimer() - PM.lastAddAD > 10*1000)
+            if(egret.getTimer() - PM.lastAddAD > 6*1000)
             {
                 PM.lastAddAD = egret.getTimer();
                 var item2 = PKItem.createItem();
@@ -412,7 +419,7 @@ class PKUI extends game.BaseUI_wx5 {
                 this.item2.move()
             }
 
-            if(egret.getTimer() - PM.lastAddProp > 15*1000)
+            if(egret.getTimer() - PM.lastAddProp > 12*1000)
             {
                 PM.lastAddProp = egret.getTimer();
                 var item2 = PKItem.createItem();

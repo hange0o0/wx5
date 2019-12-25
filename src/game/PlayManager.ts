@@ -50,16 +50,32 @@ class PlayManager extends egret.EventDispatcher {
     public heroList = [];
 
 
+
+    private isLocal = false;
     public getAD(fun?){
+
         if(this.adList)
         {
             fun && fun();
             return;
         }
-
-        var self = this;
-        //var splitList = ['wxd5d9d807682d46bb',"wxf9c8e218c23e2eb7","wxe066524f2972cb1a","wx2f66e2c8de744d53"]
         this.adList = []
+        var self = this;
+        if(Config.isZJ || Config.isQQ || !window['wx'])
+        {
+            this.isLocal = true;
+            var text = RES.getResByUrl('adList_txt',(data)=>{
+                var str = data.replace(/\r\n/g,'')
+                var arr = JSON.parse(str);
+                self.resetPath(arr)
+            })
+            fun && fun();
+            return;
+        }
+
+
+        //var splitList = ['wxd5d9d807682d46bb',"wxf9c8e218c23e2eb7","wxe066524f2972cb1a","wx2f66e2c8de744d53"]
+
         var num = 20
         var wx = window['wx'];
         //console.log(333333)
@@ -107,11 +123,11 @@ class PlayManager extends egret.EventDispatcher {
             return;
         }
 
-        wx.wladGetAds(num,function (res) { //第⼀一个参数为获取⼴广告条数，第⼆二个参数为获取成功后回调⽅方法;
-            self.adList = self.adList.concat(res.data);
-            self.resetAdList();
-            fun && fun();
-        })
+        //wx.wladGetAds(num,function (res) { //第⼀一个参数为获取⼴广告条数，第⼆二个参数为获取成功后回调⽅方法;
+        //    self.adList = self.adList.concat(res.data);
+        //    self.resetAdList();
+        //    fun && fun();
+        //})
 
         wx.cloud.downloadFile({
             fileID: self.cloudPath + 'adList.txt',
@@ -191,6 +207,14 @@ class PlayManager extends egret.EventDispatcher {
         var self = this;
         oo.isSelf = true;
         oo.step = 2;
+
+        if(this.isLocal)
+        {
+            oo.step = 1
+            oo.logo =  oo.logo.replace('.','_');
+            self.pushADData(oo);
+            return;
+        }
         wx.cloud.downloadFile({
             fileID: this.cloudPath + oo.logo,
             success: res => {
@@ -419,6 +443,8 @@ class PlayManager extends egret.EventDispatcher {
     public sendKey
     public sendKeyName
     public sendGameStart(key){
+        if(!Config.isWX)
+            return;
         var wx = window['wx']
         if(!wx)
             return;
@@ -432,6 +458,8 @@ class PlayManager extends egret.EventDispatcher {
     }
 
     public sendGameReborn(time){
+        if(!Config.isWX)
+            return;
         var wx = window['wx']
         if(!wx)
             return;
@@ -448,6 +476,8 @@ class PlayManager extends egret.EventDispatcher {
 
 
     public sendGameEnd(success?,info?){
+        if(!Config.isWX)
+            return;
         var wx = window['wx']
         if(!wx)
             return;

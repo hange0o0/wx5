@@ -179,6 +179,7 @@ class PopUpManager {
                 var lastVisible = ui.visible;
                 if(!setVisible)
                 {
+                    //console.log('setVisible',ui)
                     ui.visible = true;
                     if(!ui.isWindow && ui.hideBehind)
                         setVisible = true;

@@ -46,6 +46,7 @@ class Main extends eui.UILayer {
 	wx5_function(9753);
         DM = DebugManager.getInstance();
         Config.initURLRequest();
+        Config.init();
         console.log('_1a')
     }
 
@@ -174,6 +175,7 @@ class Main extends eui.UILayer {
 	private wx5_functionX_27983(){console.log(8215)}
      */
     private onResourceProgress_9105(event:RES.ResourceEvent):void {
+        console.log(event.itemsLoaded,event.itemsTotal)
         if (event.groupName == "game") {
             this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
         }
@@ -209,6 +211,7 @@ class Main extends eui.UILayer {
 	wx5_function(6821);
 
         PlayManager.getInstance().getAD()
+        ADIconManager.getInstance().init()
         window['wx'] && PlayManager.getInstance().initExtra(window['wx'].getLaunchOptionsSync())
         UM_wx5.getUserInfo(()=>{
 

@@ -11,6 +11,7 @@ class GameUI extends game.BaseUI_wx5 {
     private bg: eui.Image;
     private startBtn: eui.Button;
     private barMC: eui.Image;
+    private titleText: eui.Label;
     private con: eui.Group;
     private ad1: eui.Image;
     private ad2: eui.Image;
@@ -31,11 +32,12 @@ class GameUI extends game.BaseUI_wx5 {
     private red5: eui.Image;
     private lvText5: eui.Label;
     private coinText: eui.Label;
+    private topBtnGroup: eui.Group;
     private soundBtn: eui.Image;
     private rankBtn: eui.Image;
     private feedBackBtn: eui.Image;
     private loadingText: eui.Label;
-    private adText: eui.Label;
+
 
 
 
@@ -121,6 +123,14 @@ class GameUI extends game.BaseUI_wx5 {
                 DebugUI.getInstance().show();
             }
         },this)
+
+        if(Config.isZJ)
+        {
+            this.titleText.text = '别碰小广告'
+            new ZijieScreenBtn();
+            MyTool.removeMC(this.ad1)
+            MyTool.removeMC(this.ad2)
+        }
     }
 
     private renewSound(){
@@ -261,8 +271,32 @@ class GameUI extends game.BaseUI_wx5 {
             this.ad2.visible = false;
         }
 
-        this.adText.visible = Config.adHeight > 0 && !UM_wx5.isTest
-        this.adText.bottom = Config.adHeight + 15
+        //this.adText.visible = Config.adHeight > 0 && !UM_wx5.isTest
+        //this.adText.bottom = Config.adHeight + 15
+
+    }
+
+    private renewInfo(){
+        var wx = window['wx'];
+        if(!wx)
+        {
+            return;
+        }
+
+        wx.getSetting({
+            success: (res) =>{
+                console.log(res.authSetting)
+                if(res.authSetting && res.authSetting["scope.userInfo"])//已授权
+                {
+                    wx.getUserInfo({
+                        success: (res) =>{
+                            var userInfo = res.userInfo
+                            UM_wx5.renewInfo(userInfo)
+                        }
+                    })
+                }
+            }
+        })
 
     }
 

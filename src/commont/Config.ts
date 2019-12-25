@@ -60,10 +60,45 @@ class Config {
     public static platformGameidAdd = '';
     public static equalValue = 1000;
 
-	private wx5_functionX_28026(){console.log(9637)}
+    public static getShare(){
+        return Config.localResRoot + "share2.jpg"
+    }
 
+
+    public static isZJ: boolean = false;
+    public static isQQ: boolean = false;
+    public static isWX: boolean = false;
+    public static serverPath = 'https://www.hangegame.com/wx5_server/'
     public static init(){
+        this.isZJ = window['iszj']
+        this.isQQ = window['isQQ']
+        this.isWX = window['wx']
+        if(this.isZJ)
+        {
+            this.isWX = false;
 
+            this.wx_ad = '33kcbm3nk8ag2idrl2';
+            this.wx_video = '3l4aa0m5imel9kala3';
+            this.wx_insert = '';
+            this.myAppID = 'tt14f862458bd2e750';
+            this.serverPath = 'https://www.hangegame.com/wx5_server/zj/'
+        }
+
+        if(this.isQQ)
+        {
+            this.isWX = false;
+            this.wx_ad = '';
+            this.wx_video = '';
+            this.wx_insert = '';
+            this.myAppID = '1109869435';
+
+            this.serverPath = 'https://www.hangegame.com/wx4_server/qq/'
+        }
+    }
+
+    //是否没有广告
+    public static isNoVideo(){
+        return this.isQQ && !this.wx_video
     }
 
     private static createImg(name,path=''){

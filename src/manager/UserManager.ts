@@ -23,15 +23,15 @@ class UserManager_wx5 {
     }
     //
     //
-    //public nick
-    //public head
-    //public gender
+    public nick
+    public head
+    public gender
     //
     //
     public isLogin = false
 
     public isTest = true;
-    public testVersion = 190916//与服务器相同则为测试版本
+    public testVersion = 191223//与服务器相同则为测试版本
     public shareFail;
     //
     public gameid: string = 'null';
@@ -45,6 +45,9 @@ class UserManager_wx5 {
     public propLevel;
     public lastTime;
 
+
+    public loginSuccess = true
+    public gameid2: string;//匿名的openid，如果是匿名，gameid与gameid2相同
 
     //
     //public coin: number = 999;
@@ -109,6 +112,14 @@ class UserManager_wx5 {
         EM_wx5.dispatchEventWith(GameEvent.client.LOAD_FINISH)
     }
 
+    public renewInfo(userInfo){
+        if(!userInfo)
+            return;
+        this.nick = userInfo.nickName
+        this.head = userInfo.avatarUrl
+        this.gender = userInfo.gender || 1 //性别 0：未知、1：男、2：女
+    }
+
     public testPassDay(){
         if(!DateUtil_wx5.isSameDay(this.lastTime))
         {
@@ -129,7 +140,62 @@ class UserManager_wx5 {
         EM_wx5.dispatch(GameEvent.client.COIN_CHANGE)
     }
 
+    public getUserInfoZJ(fun,force=false) {
+        var tt = window['wx'];
+        tt.login({
+            force: force,
+            success: (res)=> {
+                this.loginSuccess = res.code
+                console.log(res);
+                var url = Config.serverPath + 'getInfo.php'
+                Net.getInstance().send(url, res, fun);
+            },
+            fail(res) {
+                console.log(`login调用失败`);
+            }
+        });
+    }
+
     public getUserInfo(fun?){
+        if(Config.isZJ || Config.isQQ)
+        {
+            this.getUserInfoZJ((data)=>{
+                this.gameid = data.data.openid || data.data.anonymous_openid
+                this.gameid2 = data.data.anonymous_openid
+                this.isTest = data.version == this.testVersion;
+                TimeManager_wx5.getInstance().initlogin(data.time)
+
+                Net.getInstance().getServerData((data)=>{
+                    console.log(data);
+                    if(data.data)
+                    {
+                        var tempdata = JSON.parse(Base64.decode(data.data.gamedata))
+                        if(data.data.sharedata)
+                        {
+                            var  shareData = JSON.parse(data.data.sharedata)
+                            tempdata.shareUser = shareData;
+                        }
+
+                        this.fill(tempdata);
+                    }
+                    else
+                    {
+                        var initData:any = this.orginUserData();
+                        this.fill(initData);
+                        Net.getInstance().saveServerData(true);
+                    }
+
+                    fun && fun();
+                });
+                //this.gameid = _get['openid'];
+                //this.isFirst = !SharedObjectManager_wx4.getInstance().getMyValue('localSave')
+                //this.fill(this.orginUserData_5537());
+
+            })
+            return;
+        }
+
+
         var wx = window['wx'];
         if(!wx)
         {
@@ -216,7 +282,7 @@ class UserManager_wx5 {
          };
     }
 
-    private getUpdataData(){
+    public getUpdataData(){
         return {
             time:UM_wx5.time,
             score:UM_wx5.score,
@@ -234,11 +300,17 @@ class UserManager_wx5 {
         if(!this.needUpUser)
             return;
         var wx = window['wx'];
-        if(wx)
+        if(Config.isWX)
         {
             var updateData:any = this.getUpdataData();;
             WXDB.updata('user',updateData)
         }
+        else if(Config.isZJ || Config.isQQ)
+        {
+            Net.getInstance().saveServerData();
+        }
+
+
         this.needUpUser = false;
         this.localSave();
         //this.upWXData();
@@ -252,6 +324,8 @@ class UserManager_wx5 {
 
 
     public upWXTime(){
+        if(!Config.isWX)
+            return;
         var wx = window['wx'];
         if(!wx)
             return;
@@ -269,6 +343,8 @@ class UserManager_wx5 {
     }
 
     public upWXScore(){
+        if(!Config.isWX)
+            return;
         var wx = window['wx'];
         if(!wx)
             return;
